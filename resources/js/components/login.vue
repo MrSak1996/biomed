@@ -106,41 +106,48 @@
 
 </template>
 <script>
+import { toast } from "vue3-toastify";
+
 export default {
   name: 'Login',
   data() {
-        return {
-            isNavbarOpen: false,
-           
-            form: {
-                email: '',
-                username: '',
-                password: '',
-            },
-            errors: []
-        }
-    },
+    return {
+      isNavbarOpen: false,
+
+      form: {
+        email: '',
+        username: '',
+        password: '',
+      },
+      errors: []
+    }
+  },
   methods: {
+    showSuccessNotification(message) {
+      toast.success(message, {
+        autoClose: 1000,
+      });
+    },
     loginUser() {
       axios
         .post('/api/login', this.form)
         .then(response => {
-          if (response.data.status) {
-            //this code is to make user id accessible globally
-            // localStorage.setItem('userId', response.data.userId);
-            // localStorage.setItem('user_role', response.data.user_role);
-            // localStorage.setItem('api_token', response.data.api_token);
-            // localStorage.setItem('isUpdatedPassword', response.data.isUpdatedPassword);
-            // console.log(response.data.isUpdatedPassword);
+          // if (response.data.status) {
+          // this code is to make user id accessible globally
+          localStorage.setItem('userId', response.data.id);
+          // localStorage.setItem('user_role', response.data.user_role);
+          // localStorage.setItem('api_token', response.data.api_token);
+          // localStorage.setItem('isUpdatedPassword', response.data.isUpdatedPassword);
+          console.log(response.data.isUpdatedPassword);
 
-            // this.showSuccessNotification('You are logged in');
-            setTimeout(() => {
-              // this.$router.push({ name: 'Dashboard' });
-            }, 1000);
-          } else {
-            // this.showFailedNotification('Login Failed');
-            // Handle login failure, show error message, etc.
-          }
+          this.showSuccessNotification('You are logged in');
+          setTimeout(() => {
+            this.$router.push({ name: 'Dashboard' });
+          }, 1000);
+          // } else {
+          //   // this.showFailedNotification('Login Failed');
+          //   // Handle login failure, show error message, etc.
+          // }
         })
         .catch(error => {
           if (error.response && error.response.data) {

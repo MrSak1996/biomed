@@ -1,4 +1,6 @@
 // Constants
+document.addEventListener('DOMContentLoaded', function() {
+
 const TRANS_EVENTS = ['transitionend', 'webkitTransitionEnd', 'oTransitionEnd']
 const TRANS_PROPERTIES = ['transition', 'MozTransition', 'webkitTransition', 'WebkitTransition', 'OTransition']
 const INLINE_STYLES = `
@@ -846,5 +848,4 @@ if (typeof window !== 'undefined') {
     })
 }
 
-// ---
-export { Helpers }
+})

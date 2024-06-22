@@ -4,7 +4,9 @@
 
 'use strict';
 
-(function () {
+$(document).ready(function(){
+
+
   let cardColor, headingColor, axisColor, shadeColor, borderColor;
 
   cardColor = config.colors.white;
@@ -659,4 +661,4 @@
     const weeklyExpenses = new ApexCharts(weeklyExpensesEl, weeklyExpensesConfig);
     weeklyExpenses.render();
   }
-})();
+})
