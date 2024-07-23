@@ -27,6 +27,10 @@
     <!-- ================== BEGIN BASE JS ================== -->
     <script src="{{ asset ('assets/plugins/pace/pace.min.js')  }}"></script>
     <!-- ================== END BASE JS ================== -->
+    <link href="{{ asset ('assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css')}}" rel="stylesheet" />
+	<link href="{{ asset ('assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{ asset ('assets/plugins/fullcalendar/fullcalendar.print.css') }}" rel="stylesheet" media='print' />
+	<link href="{{ asset ('assets/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" />
 </head>
 
 <body class="antialiased">
@@ -44,11 +48,21 @@
     <script src="{{ asset ('assets/plugins/jquery/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset ('assets/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
     <script src="{{ asset ('assets/plugins/bootstrap/4.0.0/js/bootstrap.bundle.min.js') }}"></script>
-
     <script src="{{ asset ('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset ('assets/plugins/js-cookie/js.cookie.js') }}"></script>
     <script src="{{ asset ('assets/js/theme/default.min.js') }}"></script>
     <script src="{{ asset ('assets/js/apps.min.js') }}"></script>
+    <script src="{{ asset ('assets/plugins/DataTables/media/js/jquery.dataTables.js')}}"></script>
+    <script src="{{ asset ('assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js')}}"></script>
+    <script src="{{ asset ('assets/plugins/DataTables/extensions/FixedColumns/js/dataTables.fixedColumns.min.js')}}"></script>
+
+    <script src="{{ asset ('assets/plugins/fullcalendar/lib/moment.min.js') }}"></script>
+	<script src="{{ asset ('assets/plugins/fullcalendar/fullcalendar.min.js') }}"></script>
+	<script src="{{ asset ('assets/js/demo/calendar.demo.min.js') }}"></script>
+	<script src="{{ asset ('assets/js/demo/table-manage-responsive.demo.min.js')}}"></script>
+    <script src="{{ asset ('assets/plugins/bootstrap-sweetalert/sweetalert.min.js')}}"></script>
+    <script src="{{ asset ('assets/js/demo/ui-modal-notification.demo.min.js')}}"></script>
+
     <!-- ================== END BASE JS ================== -->
 
     <!-- ================== BEGIN PAGE LEVEL JS ================== -->
@@ -68,6 +82,12 @@
     $(document).ready(function() {
         App.init();
         Dashboard.init();
+        TableManageResponsive.init();
+        Calendar.init();
+		Notification.init();
+
+
+
     });
     </script>
 </body>

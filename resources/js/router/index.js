@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Dashboard from '../components/admin/dashboard.vue';
+import JobOrderForm from '../components/technician/joborder.vue';
+import JobOrderFormCreate from '../components/technician/joborder_create.vue';
+import JobOrderFormView from '../components/technician/joborder_view.vue';
+import Task_sched from '../components/technician/task_sched.vue';
 
 const routes = [
   {
@@ -7,6 +11,26 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
   },
+  {
+    path: '/job-order',
+    name: 'Job Order',
+    component: JobOrderForm
+  },
+  {
+    path: '/job-order-create',
+    name: 'Job Order Create',
+    component: JobOrderFormCreate
+  },
+  {
+    path: '/job-order-view/:id',
+    name: 'Job Order View',
+    component: JobOrderFormView
+  },
+  {
+    path: '/task-sched',
+    name: 'Task Schedule',
+    component: Task_sched
+  }
 ];
 
 const router = createRouter({

@@ -29,42 +29,30 @@
         <!-- begin sidebar nav -->
         <ul class="nav">
             <li class="nav-header">Navigation</li>
-            <li class=" active">
-                <a href="javascript:;">
+            <li :class="{ active: isActive('/') }" class="has-sub">
+                <router-link to ="/">
                     <i class="fa fa-th-large"></i>
                     <span>Dashboard</span>
-                </a>
+                </router-link>
             </li>
-            <li class="has-sub">
-                <router-link to="/orders">
+            <li :class="{ active: isActive('/job-order') }" class="has-sub">
+                <router-link to="/job-order">
                     <span class="badge pull-right">10</span>
                     <i class="fa fa-hdd"></i>
                     <span>Orders</span>
                 </router-link>
 
             </li>
-            <li class="has-sub">
-                <a href="javascript:;">
+            <li :class="{ active: isActive('/task-sched') }" class="has-sub">
+                <a>
                     <b class="caret"></b>
-                    <i class="fa fa-gem"></i>
-                    <span>Schedule <span class="label label-theme m-l-5">NEW</span></span>
+                    <i class="fa fa-calendar"></i>
+                    <span>Calendar of Schedule</span>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="ui_general.html">General</a></li>
-                    <li><a href="ui_typography.html">Typography</a></li>
-                    <li><a href="ui_tabs_accordions.html">Tabs & Accordions</a></li>
-                    <li><a href="ui_unlimited_tabs.html">Unlimited Nav Tabs</a></li>
-                    <li><a href="ui_modal_notification.html">Modal & Notification <i class="fa fa-paper-plane text-theme m-l-5"></i></a></li>
-                    <li><a href="ui_widget_boxes.html">Widget Boxes</a></li>
-                    <li><a href="ui_media_object.html">Media Object</a></li>
-                    <li><a href="ui_buttons.html">Buttons</a></li>
-                    <li><a href="ui_icons.html">Icons</a></li>
-                    <li><a href="ui_simple_line_icons.html">Simple Line Icons</a></li>
-                    <li><a href="ui_ionicons.html">Ionicons</a></li>
-                    <li><a href="ui_tree.html">Tree View</a></li>
-                    <li><a href="ui_language_bar_icon.html">Language Bar & Icon</a></li>
-                    <li><a href="ui_social_buttons.html">Social Buttons</a></li>
-                    <li><a href="ui_tour.html">Intro JS</a></li>
+                    <li><router-link to="/task-sched">Activities and Task</router-link></li>
+                    <li><router-link to="#">Task Management</router-link></li>
+                    <li><router-link to="#">Report Generator</router-link></li>
                 </ul>
             </li>
             <li>
@@ -181,5 +169,15 @@ export default {
             logo: logobs4
         }
     },
+    computed: {
+        currentRoute() {
+            return this.$route.path;
+        }
+    },
+    methods: {
+        isActive(path) {
+            return this.currentRoute === path;
+        }
+    }
 }
 </script>
