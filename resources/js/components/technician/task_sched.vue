@@ -118,13 +118,11 @@
                             <table class="table table-striped">
                                 <tbody>
                                     <tr v-for="n in 50" :key="n" class="odd gradeX">
-                                        <td width="1%" class="f-s-600 text-inverse">{{ n }}</td>
                                         <td width="1%" class="with-img"></td>
                                         <td>Trident</td>
                                         <td>Trident</td>
                                         <td>
                                             <a href="javascript:;" class="btn btn-success btn-icon btn-circle"><i class="fa fa-eye"></i></a>&nbsp;
-                                            <a href="javascript:;" class="btn btn-danger btn-icon btn-circle"><i class="fa fa-times"></i></a>&nbsp;
 
                                         </td>
                                     </tr>
