@@ -11,7 +11,6 @@ class TaskScheduleController extends Controller
 {
     public function fetch_data()
     {
-
         $EventData = TaskScheduleModel::select(
             'tbl_taskschedule.id',
             'tbl_taskschedule.office',
@@ -41,5 +40,41 @@ class TaskScheduleController extends Controller
             )
             ->get();
         return response()->json($EventData);
+    }
+    
+    public function fetch_onboard_tech()
+    {
+        $query = TaskScheduleModel::select(TaskScheduleModel::raw('
+        tbl_taskschedule.id,
+        tbl_taskschedule.technician_id,
+        tbl_taskschedule.start_date,
+        tbl_taskschedule.end_date,
+        u.name
+       
+    '))
+        ->leftJoin('users as u', 'u.id', '=', 'tbl_taskschedule.technician_id')
+        ->orderBy('id', 'DESC');
+        $data = $query->get();
+        return response()->json($data);
+    }
+    
+    public function post_create_event(Request $req)
+    {
+   
+        $data = new TaskScheduleModel([
+            'id'            => null,
+            'title'         => $req->input('title'),
+            'posted_by'     => $req->input('posted_by'),
+            'client_id'     => $req->input('client_id'),
+            'technician_id' => $req->input('technician_id'),
+            'start_date'    => $req->input('start'),
+            'end_date'      =>  $req->input('end'),
+            'description'   =>  $req->input('description'),
+            'division_color'=> '#0097A7'
+
+        ]);
+        $data->save();
+
+        return response()->json(['message' => 'Task created successfully', 'sql_query' => $data], 201);
     }
 }

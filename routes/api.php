@@ -33,4 +33,5 @@ Route::middleware('api')->group(function () {
 
 });
 Route::post('post_create_job_order',[JobOrderController::class,'post_create_job_order']);
+Route::post('post_create_event',[TaskScheduleController::class,'post_create_event']);
 
