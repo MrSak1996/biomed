@@ -56,12 +56,12 @@
                 </ul>
             </li>
             <li>
-                <a href="bootstrap_4.html">
+                <router-link to="/inventory">
                     <div class="icon-img">
                         <img :src="logo" alt="" />
                     </div>
                     <span>Inventory <span class="label label-theme m-l-5">NEW</span></span>
-                </a>
+                </router-link>
             </li>
 
             <li class="has-sub">

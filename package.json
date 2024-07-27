@@ -17,6 +17,13 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "@fortawesome/free-solid-svg-icons": "^6.6.0",
+        "@fullcalendar/core": "^6.1.15",
+        "@fullcalendar/daygrid": "^6.1.15",
+        "@fullcalendar/interaction": "^6.1.15",
+        "@fullcalendar/vue3": "^6.1.15",
+        "moment": "^2.30.1",
+        "vue-multiselect": "^3.0.0",
         "vue-router": "^4.4.0"
     }
 }

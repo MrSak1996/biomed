@@ -16,6 +16,7 @@
     <link href="{{ asset ('assets/css/default/style.min.css') }}" rel="stylesheet" />
     <link href="{{ asset ('assets/css/default/style-responsive.min.css' ) }}" rel="stylesheet" />
     <link href="{{ asset ('assets/css/default/theme/default.css' ) }}" rel="stylesheet" id="theme" />
+    <link href="{{ asset ('assets/css/select2/select2.min.css' ) }}" rel="stylesheet" />
     <!-- ================== END BASE CSS STYLE ================== -->
 
     <!-- ================== BEGIN PAGE LEVEL STYLE ================== -->
@@ -29,8 +30,8 @@
     <!-- ================== END BASE JS ================== -->
     <link href="{{ asset ('assets/plugins/DataTables/media/css/dataTables.bootstrap.min.css')}}" rel="stylesheet" />
 	<link href="{{ asset ('assets/plugins/DataTables/extensions/Responsive/css/responsive.bootstrap.min.css')}}" rel="stylesheet" />
-    <link href="{{ asset ('assets/plugins/fullcalendar/fullcalendar.print.css') }}" rel="stylesheet" media='print' />
-	<link href="{{ asset ('assets/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" />
+    <!-- <link href="{{ asset ('assets/plugins/fullcalendar/fullcalendar.print.css') }}" rel="stylesheet" media='print' /> -->
+	<!-- <link href="{{ asset ('assets/plugins/fullcalendar/fullcalendar.min.css')}}" rel="stylesheet" /> -->
 </head>
 
 <body class="antialiased">
@@ -58,7 +59,7 @@
 
     <script src="{{ asset ('assets/plugins/fullcalendar/lib/moment.min.js') }}"></script>
 	<script src="{{ asset ('assets/plugins/fullcalendar/fullcalendar.min.js') }}"></script>
-	<script src="{{ asset ('assets/js/demo/calendar.demo.min.js') }}"></script>
+	<!-- <script src="{{ asset ('assets/js/demo/calendar.demo.min.js') }}"></script> -->
 	<script src="{{ asset ('assets/js/demo/table-manage-responsive.demo.min.js')}}"></script>
     <script src="{{ asset ('assets/plugins/bootstrap-sweetalert/sweetalert.min.js')}}"></script>
     <script src="{{ asset ('assets/js/demo/ui-modal-notification.demo.min.js')}}"></script>
@@ -83,7 +84,7 @@
         App.init();
         Dashboard.init();
         TableManageResponsive.init();
-        Calendar.init();
+        // Calendar.init();?
 		Notification.init();
 
 

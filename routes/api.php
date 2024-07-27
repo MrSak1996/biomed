@@ -1,7 +1,7 @@
 <?php
 use App\Http\Controllers\JobOrderController;
+use App\Http\Controllers\TaskScheduleController;
 
-use App\Models\JobOrderModel;
 
 
 
@@ -27,6 +27,10 @@ Route::middleware('api')->group(function () {
     Route::get('get_job_order_list/{id}', [JobOrderController::class, 'get_job_order_list']);
     Route::get('export_job_order/{id}', [JobOrderController::class, 'get_job_order_list']);
     Route::get('get_job_order_list', [JobOrderController::class, 'get_job_order_list']);
+
+    // Task Schedule
+    Route::get('fetch_data',[TaskScheduleController::class, 'fetch_data']);
+
 });
 Route::post('post_create_job_order',[JobOrderController::class,'post_create_job_order']);
 
