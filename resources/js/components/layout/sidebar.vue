@@ -5,7 +5,7 @@
         <!-- begin sidebar user -->
         <ul class="nav">
             <li class="nav-profile">
-                <a href="javascript:;" data-toggle="nav-profile">
+                <a href="#" data-toggle="nav-profile">
                     <div class="cover with-shadow"></div>
                     <div class="image">
                         <img :src="user13" alt="" />
@@ -19,9 +19,9 @@
             </li>
             <li>
                 <ul class="nav nav-profile">
-                    <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
-                    <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
-                    <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
+                    <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+                    <li><a href="#"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
+                    <li><a href="#"><i class="fa fa-question-circle"></i> Helps</a></li>
                 </ul>
             </li>
         </ul>
@@ -66,7 +66,7 @@
             </li>
 
             <li class="has-sub">
-                <a href="javascript:;">
+                <a href="#">
                     <b class="caret"></b>
                     <i class="fa fa-table"></i>
                     <span>Technicians</span>
@@ -74,7 +74,7 @@
                 <ul class="sub-menu">
                     <li><a href="table_basic.html">Basic Tables</a></li>
                     <li class="has-sub">
-                        <a href="javascript:;"><b class="caret pull-right"></b> Managed Tables</a>
+                        <a href="#"><b class="caret pull-right"></b> Managed Tables</a>
                         <ul class="sub-menu">
                             <li><a href="table_manage.html">Default</a></li>
                             <li><a href="table_manage_autofill.html">Autofill</a></li>
@@ -93,7 +93,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="javascript:;">
+                <a href="#">
                     <b class="caret"></b>
                     <i class="fa fa-star"></i>
                     <span>Customers</span>
@@ -106,14 +106,14 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="javascript:;">
+                <a href="#">
                     <b class="caret"></b>
                     <i class="fa fa-envelope"></i>
                     <span>Services</span>
                 </a>
                 <ul class="sub-menu">
                     <li><a href="email_system.html">Repair</a></li>
-                    <li><a href="email_newsletter.html">PMS</a></li>
+                    <li><router-link to="/pms">PMS</router-link></li>
                     <li><a href="email_newsletter.html">Callibration</a></li>
                     <li><a href="email_newsletter.html">Refurbishing</a></li>
                     <li><a href="email_newsletter.html">Installation</a></li>
@@ -121,7 +121,7 @@
                 </ul>
             </li>
              <li class="has-sub">
-                <a href="javascript:;">
+                <a href="#">
                     <b class="caret"></b>
                     <i class="fa fa-chart-pie"></i>
                     <span>Create Request</span>
@@ -134,7 +134,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="javascript:;">
+                <a href="#">
                     <b class="caret"></b>
                     <i class="fa fa-chart-pie"></i>
                     <span>Account Settings</span>
@@ -148,7 +148,7 @@
             </li>
 
             <!-- begin sidebar minify button -->
-            <li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+            <li><a href="#" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
             <!-- end sidebar minify button -->
         </ul>
         <!-- end sidebar nav -->

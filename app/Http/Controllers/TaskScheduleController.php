@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TaskScheduleModel;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 
 class TaskScheduleController extends Controller
@@ -37,11 +38,11 @@ class TaskScheduleController extends Controller
             DB::raw("DATE_FORMAT(tbl_taskschedule.start_date, '%Y-%m-%d') as start"),
             DB::raw("DATE_FORMAT(tbl_taskschedule.end_date, '%Y-%m-%d') as end")
             // DB::raw("CONCAT(users.last_name, ', ', users.first_name) AS fname")
-            )
+        )
             ->get();
         return response()->json($EventData);
     }
-    
+
     public function fetch_onboard_tech()
     {
         $query = TaskScheduleModel::select(TaskScheduleModel::raw('
@@ -49,18 +50,35 @@ class TaskScheduleController extends Controller
         tbl_taskschedule.technician_id,
         tbl_taskschedule.start_date,
         tbl_taskschedule.end_date,
-        u.name
-       
-    '))
-        ->leftJoin('users as u', 'u.id', '=', 'tbl_taskschedule.technician_id')
-        ->orderBy('id', 'DESC');
+        u.name'))
+            ->leftJoin('users as u', 'u.id', '=', 'tbl_taskschedule.technician_id')
+            ->orderBy('id', 'DESC');
         $data = $query->get();
         return response()->json($data);
     }
-    
+    public function fetch_upcoming_pms()
+    {
+        $currentDate = Carbon::now()->format('Y-m-d'); // For datetime
+        $endDate = '2024-12-31'; // End date
+
+        $query = TaskScheduleModel::select(DB::raw('
+        tbl_taskschedule.id,
+        tbl_taskschedule.title,
+        tbl_taskschedule.start_date,
+        tbl_taskschedule.end_date,
+        u.name'))
+            ->leftJoin('users as u', 'u.id', '=', 'tbl_taskschedule.technician_id')
+            ->whereBetween('tbl_taskschedule.start_date', [$currentDate, $endDate])
+            ->orderBy('id', 'DESC');
+        $data = $query->get();
+
+
+        return response()->json($data);
+    }
+
     public function post_create_event(Request $req)
     {
-   
+
         $data = new TaskScheduleModel([
             'id'            => null,
             'title'         => $req->input('title'),
@@ -70,7 +88,7 @@ class TaskScheduleController extends Controller
             'start_date'    => $req->input('start'),
             'end_date'      =>  $req->input('end'),
             'description'   =>  $req->input('description'),
-            'division_color'=> '#0097A7'
+            'division_color' => '#0097A7'
 
         ]);
         $data->save();

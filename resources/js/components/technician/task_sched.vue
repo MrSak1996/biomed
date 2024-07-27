@@ -52,42 +52,31 @@
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                         </div>
-                        <h4 class="panel-title">Available Technicians</h4>
+                        <h4 class="panel-title">Workload</h4>
                     </div>
                     <div class="panel-body">
                         <div class="panel-body" style="height: 200px; overflow-y: scroll;">
                             <div id="external-events" class="fc-event-list">
                                 <h5 class="m-t-0 m-b-15">On-board Technicians</h5>
-                                <div v-for="(job, index) in tech" :key="tech.id">
-
+                                <div v-for="(item, index) in tech" :key="item.id">
+                                    <div class="fc-event" data-color="#00acac">
+                                        <div class="fc-event-icon">
+                                            <i class="fas fa-circle fa-fw f-s-9 text-success"></i>
+                                        </div>
+                                        {{item.name}}
+                                    </div>
                                 </div>
-                                <div class="fc-event" data-color="#00acac">
-                                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw f-s-9 text-success"></i></div> Meeting with
-                                    Client
-                                </div>
-
                                 <hr class="bg-grey-lighter m-b-15" />
-                                <h5 class="m-t-0 m-b-15">Other Events</h5>
-                                <div class="fc-event" data-color="#b6c2c9">
-                                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw f-s-9 text-grey"></i>
-                                    </div> Other Event 1
+                                <h5 class="m-t-0 m-b-15">Upcoming PMS Schedule</h5>
+                                <div v-for="(data, index) in pms_sched" :key="data.id">
+                                    <div class="fc-event" data-color="#b6c2c9">
+                                        <div class="fc-event-icon">
+                                            <i class="fas fa-circle fa-fw f-s-9 text-grey"></i>
+                                        </div>
+                                        {{data.title}} <b>({{ formatDate(data.end_date)}})</b>
+                                    </div>
                                 </div>
-                                <div class="fc-event" data-color="#b6c2c9">
-                                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw f-s-9 text-grey"></i>
-                                    </div> Other Event 2
-                                </div>
-                                <div class="fc-event" data-color="#b6c2c9">
-                                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw f-s-9 text-grey"></i>
-                                    </div> Other Event 3
-                                </div>
-                                <div class="fc-event" data-color="#b6c2c9">
-                                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw f-s-9 text-grey"></i>
-                                    </div> Other Event 4
-                                </div>
-                                <div class="fc-event" data-color="#b6c2c9">
-                                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw f-s-9 text-grey"></i>
-                                    </div> Other Event 5
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -100,7 +89,7 @@
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                             <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
                         </div>
-                        <h4 class="panel-title">Activity and Task</h4>
+                        <h4 class="panel-title">Pending Activity and Task</h4>
                     </div>
                     <div class="panel-body">
                         <div class="panel-body" style="height: 400px; overflow-y: scroll;">
@@ -151,7 +140,8 @@ export default {
     },
     data() {
         return {
-          tech:[],
+            tech: [],
+            pms_sched: [],
             eventDetails: {
                 title: "",
                 start: "",
@@ -165,8 +155,34 @@ export default {
             },
         }
     },
+    mounted() {
+        this.fetch_onboard_tech();
+        this.fetch_upcoming_pms();
+    },
     methods: {
-      
+        formatDate(date) {
+            return this.$formatDate(date);
+        },
+        fetch_onboard_tech() {
+            const url = './api/fetch_onboard_tech';
+            axios.get(url)
+                .then(response => {
+                    this.tech = response.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        },
+        fetch_upcoming_pms() {
+            const url = './api/fetch_upcoming_pms';
+            axios.get(url)
+                .then(response => {
+                    this.pms_sched = response.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
     },
     setup() {
         const calendarRef = ref(null);

@@ -30,6 +30,8 @@ Route::middleware('api')->group(function () {
 
     // Task Schedule
     Route::get('fetch_data',[TaskScheduleController::class, 'fetch_data']);
+    Route::get('fetch_onboard_tech',[TaskScheduleController::class, 'fetch_onboard_tech']);
+    Route::get('fetch_upcoming_pms',[TaskScheduleController::class, 'fetch_upcoming_pms']);
 
 });
 Route::post('post_create_job_order',[JobOrderController::class,'post_create_job_order']);

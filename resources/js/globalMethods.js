@@ -41,6 +41,20 @@ const generateControlNO = async function (url, prefix) {
     }
 };
 
+const formatDate= function (date) {
+    if (!date || date === '0000-00-00') {
+        return null; // Return null if the date is null or '0000-00-00'
+    } else {
+        const formattedDate = new Date(date).toLocaleString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+
+        });
+        return formattedDate;
+    }
+}
+
 
 // const countTotalItem = function (cur_year) {
 //     return axios.get(`../api/countTotalItem/${cur_year}`)
@@ -198,7 +212,8 @@ const generateControlNO = async function (url, prefix) {
 
 
 export {
-    generateControlNO
+    generateControlNO,
+    formatDate
     // fetchUserData,
     // countTotalItem,
     // countICTRequest,
