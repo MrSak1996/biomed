@@ -51,7 +51,7 @@
                 </a>
                 <ul class="sub-menu">
                     <li><router-link to="/task-sched">Activities and Task</router-link></li>
-                    <li><router-link to="#">Task Management</router-link></li>
+                    <li><router-link to="/task-management">Task Management</router-link></li>
                     <li><router-link to="#">Conflict Schedule</router-link></li>
                     <li><router-link to="#">Report Generator</router-link></li>
                 </ul>

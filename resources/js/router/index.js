@@ -4,6 +4,7 @@ import JobOrderForm from '../components/technician/joborder.vue';
 import JobOrderFormCreate from '../components/technician/joborder_create.vue';
 import JobOrderFormView from '../components/technician/joborder_view.vue';
 import Task_sched from '../components/technician/task_sched.vue';
+import Task_management from '../components/technician/task_management.vue';
 import PMSForm from "../components/technician/pms.vue";
 
 const routes = [
@@ -31,6 +32,11 @@ const routes = [
     path: '/task-sched',
     name: 'Task Schedule',
     component: Task_sched
+  },
+  {
+    path: '/task-management',
+    name: 'Task Management',
+    component: Task_management
   },
   {
     path: '/inventory',

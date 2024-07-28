@@ -52,7 +52,7 @@
     <script src="{{ asset ('assets/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
     <script src="{{ asset ('assets/plugins/js-cookie/js.cookie.js') }}"></script>
     <script src="{{ asset ('assets/js/theme/default.min.js') }}"></script>
-    <script src="{{ asset ('assets/js/apps.min.js') }}"></script>
+    <!-- <script src="{{ asset ('assets/js/apps.min.js') }}"></script> -->
     <script src="{{ asset ('assets/plugins/DataTables/media/js/jquery.dataTables.js')}}"></script>
     <script src="{{ asset ('assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js')}}"></script>
     <script src="{{ asset ('assets/plugins/DataTables/extensions/FixedColumns/js/dataTables.fixedColumns.min.js')}}"></script>
