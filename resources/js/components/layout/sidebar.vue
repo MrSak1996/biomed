@@ -30,17 +30,18 @@
         <ul class="nav">
             <li class="nav-header">Navigation</li>
             <li :class="{ active: isActive('/') }" class="has-sub">
-                <router-link to ="/">
+                <a :href="$router.resolve({path: '/'}).href">
+
                     <i class="fa fa-th-large"></i>
                     <span>Dashboard</span>
-                </router-link>
+                </a>
             </li>
             <li :class="{ active: isActive('/job-order') }" class="has-sub">
-                <router-link to="/job-order">
+                <a :href="$router.resolve({path: '/job-order'}).href">
                     <span class="badge pull-right">10</span>
                     <i class="fa fa-hdd"></i>
                     <span>Orders</span>
-                </router-link>
+                </a>
 
             </li>
             <li :class="{ active: isActive('/task-sched') }" class="has-sub">
@@ -50,7 +51,7 @@
                     <span>Calendar of Schedule</span>
                 </a>
                 <ul class="sub-menu">
-                    <li><router-link to="/task-sched">Activities and Task</router-link></li>
+                    <li> <a :href="$router.resolve({path: '/task-sched'}).href"> Activities and Task</a></li>
                     <li><router-link to="/task-management">Task Management</router-link></li>
                     <li><router-link to="#">Conflict Schedule</router-link></li>
                     <li><router-link to="#">Report Generator</router-link></li>

@@ -15,11 +15,14 @@
       v-model="inputValue"
       :value="value"
       @input="updateValue"
+      :readonly="readonly"
     />
   </div>
 </template>
 
 <script>
+import { readonly } from 'vue';
+
 export default {
   props: {
     value: {
@@ -33,6 +36,10 @@ export default {
     required: {
       type: Boolean,
       default: false
+    },
+    readonly:{
+      type:Boolean,
+      default:false,
     },
     type: {
       type: String,

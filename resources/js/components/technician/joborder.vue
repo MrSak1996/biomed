@@ -41,7 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(job, index) in job_order_data" :key="job.id" class="odd gradeX">
+                                    <tr v-for="(job, index) in jobOrderData" :key="job.id" class="odd gradeX">
                                     	<td width="1%" class="f-s-600 text-inverse">{{ job.id }}</td>
                                     	<td width="11%" class="with-img">{{ job.control_no }}</td>
                                         <td>{{ job.request_by }}</td>
@@ -68,37 +68,46 @@
 
     </div>
 </template>
+
 <script>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 import Header from "../../components/layout/header.vue";
 import Sidebar from "../../components/layout/sidebar.vue";
+
 export default {
-    name: 'Job Order',
-    data(){
-        return{
-            job_order_data: []
-        }
-    },
+    name: 'JobOrder',
     components: {
         Header,
         Sidebar
     },
-    mounted(){
-        this.get_job_order_list();
-    },
-    methods:{
-        exportJobOrder(id) {
+    setup() {
+        const jobOrderData = ref([]);
+
+        const exportJobOrder = (id) => {
             window.location.href = `./api/export_job_order/${id}?export=true`;
-        },
-        get_job_order_list(){
+        };
+
+        const getJobOrderList = () => {
             const url = './api/get_job_order_list';
             axios.get(url)
                 .then(response => {
-                    this.job_order_data = response.data.data;
+                    jobOrderData.value = response.data.data;
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
                 });
-        }
+        };
+
+        onMounted(() => {
+            getJobOrderList();
+        });
+
+        return {
+            jobOrderData,
+            exportJobOrder,
+            getJobOrderList
+        };
     }
 }
 </script>
