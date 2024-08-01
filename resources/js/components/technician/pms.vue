@@ -209,79 +209,11 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                </tr>
-                                            </tbody>
+                                        <tr v-for="(row, index) in tableData" :key="index">
+                                            <td>{{ row.equipment_info }}</td>
+                                     
+                                        </tr>
+                                    </tbody>
                                         </table>
                                     </div>
                                     <!-- end tab-pane -->
@@ -291,23 +223,18 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th width="1%">Cleaning</th>
+                                                    <th width="1%">Visual Inspection</th>
                                                     <th width="10%">Pass</th>
                                                     <th class="text-nowrap">Fail</th>
                                                     <th class="text-nowrap">Not Applicable</th>
                                                     <th class="text-nowrap">Parts Condition</th>
                                                     <th class="text-nowrap">Remarks</th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
+                                                <tr v-for="(row, index) in tableData" :key="row.id" class="odd gradeX">
+                                                    <td>{{ row.equipment_info }}</td>
+                                                 
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -415,6 +342,8 @@ export default {
         const equipment_list = ref([]);
         const client_list = ref([]);
         const department_list = ref([]);
+        const tableData = ref([]);
+
 
         const get_equipment = () => {
             const url = './api/get_equipment';
@@ -430,8 +359,6 @@ export default {
                     console.error('Error fetching data:', error);
                 });
         };
-
-
 
         const get_client = () => {
             const url = './api/get_client';
@@ -460,9 +387,17 @@ export default {
         };
 
         const get_equipment_info = (id) => {
-            
-        }
+            const url = `./api/get_equipment_info/${id}`;
+            axios.get(url)
+                .then(response => {
+                  tableData.value = response.data.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        };
 
+    
 
 
         watch(client, (newClient) => {
@@ -474,6 +409,7 @@ export default {
                 }
             }
         });
+
         watch(equipment, (newEquipment) => {
             if (newEquipment) {
                 get_equipment_info(newEquipment.equipment_id);
@@ -485,7 +421,7 @@ export default {
             get_equipment();
             get_client();
             get_department();
-            
+
         });
 
         return {
@@ -497,6 +433,7 @@ export default {
             equipment_list,
             client_list,
             department_list,
+            tableData,
             get_equipment,
             get_client,
             get_department,

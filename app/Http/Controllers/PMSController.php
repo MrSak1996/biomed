@@ -31,4 +31,20 @@ class PMSController extends Controller
                 ->get()
         );
     }
+    public function get_equipment_info($id)
+    {
+        $query = EquipmentModel::select(EquipmentModel::raw('
+                tbl_equipment.id,
+                tbl_equipment.equipment,
+                ei.equipment_info
+                '))
+                ->leftJoin('tbl_equipment_info as ei', 'ei.equipment_id', '=', 'tbl_equipment.id')
+                ->leftJoin('tbl_equipment_category as ec', 'ec.id', '=', 'ei.equipment_category_id')
+                ->where('tbl_equipment.id', $id)
+                ->where('ei.equipment_category_id', 1); // Add this line
+
+             $data = $query->get();
+
+            return response()->json(['data' => $data]);
+    }
 }

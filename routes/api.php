@@ -39,6 +39,8 @@ Route::middleware('api')->group(function () {
     Route::get('get_equipment',[PMSController::class, 'get_equipment']);
     Route::get('get_client',[PMSController::class, 'get_client']);
     Route::get('get_department',[PMSController::class, 'get_department']);
+    Route::get('get_equipment_info/{id}', [PMSController::class, 'get_equipment_info']);
+
     
 
 });
