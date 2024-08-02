@@ -1,32 +1,28 @@
-<style>
-.cust-height{
-    height: 40px;
-}
-</style>
 <template>
   <div class="mb-3">
     <label class="form-label">{{ label }}</label>
     <input
-      
       :type="type"
       :placeholder="placeholder"
       :required="required"
       class="form-control cust-height"
-      v-model="inputValue"
       :value="value"
+      :checked="checked"
       @input="updateValue"
+      @change="updateValue"
       :readonly="readonly"
+      :style="{ width: type === 'checkbox' ? '20px' : '', height: type === 'checkbox' ? '20px' : '' }"
     />
   </div>
 </template>
 
 <script>
-import { readonly } from 'vue';
+import { computed } from 'vue';
 
 export default {
   props: {
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean],
       default: ''
     },
     placeholder: {
@@ -37,9 +33,9 @@ export default {
       type: Boolean,
       default: false
     },
-    readonly:{
-      type:Boolean,
-      default:false,
+    readonly: {
+      type: Boolean,
+      default: false
     },
     type: {
       type: String,
@@ -48,28 +44,28 @@ export default {
     label: {
       type: String,
       default: ''
+    },
+    checked: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     inputValue: {
       get() {
-        return this.value;
+        return this.type === 'checkbox' ? this.checked : this.value;
       },
       set(value) {
+        this.$emit('update:checked', value);
         this.$emit('input', value);
       }
     }
   },
   methods: {
     updateValue(event) {
-      this.inputValue = event.target.value;
+      const value = this.type === 'checkbox' ? event.target.checked : event.target.value;
+      this.inputValue = value;
     }
   }
 };
 </script>
-
-<style scoped>
-.form-control {
-  width: 100%;
-}
-</style>

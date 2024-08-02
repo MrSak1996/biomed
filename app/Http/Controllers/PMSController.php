@@ -31,20 +31,37 @@ class PMSController extends Controller
                 ->get()
         );
     }
-    public function get_equipment_info($id)
+    public function get_equipment_info($id, Request $request)
     {
-        $query = EquipmentModel::select(EquipmentModel::raw('
-                tbl_equipment.id,
-                tbl_equipment.equipment,
-                ei.equipment_info
-                '))
+        // Validate the equipment_cat parameter
+        $validatedData = $request->validate([
+            'equipment_cat' => 'required|integer|exists:tbl_equipment_category,id'
+        ]);
+    
+        $equipmentCat = $validatedData['equipment_cat'];
+    
+        try {
+            $data = EquipmentModel::select('tbl_equipment.id', 'tbl_equipment.equipment', 'ei.equipment_info')
                 ->leftJoin('tbl_equipment_info as ei', 'ei.equipment_id', '=', 'tbl_equipment.id')
                 ->leftJoin('tbl_equipment_category as ec', 'ec.id', '=', 'ei.equipment_category_id')
                 ->where('tbl_equipment.id', $id)
-                ->where('ei.equipment_category_id', 1); // Add this line
-
-             $data = $query->get();
-
+                ->where('ei.equipment_category_id', $equipmentCat)
+                ->get();
+    
+            // Add default values to the data if necessary
+            foreach ($data as $item) {
+                $item->pass = false;
+                $item->fail = false;
+                $item->na = false;
+            }
+    
             return response()->json(['data' => $data]);
+    
+        } catch (\Exception $e) {
+            // Log the exception and return an error response
+            \Log::error('Error fetching equipment info: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while fetching equipment info.'], 500);
+        }
     }
+    
 }

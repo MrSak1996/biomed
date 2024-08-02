@@ -205,16 +205,20 @@
                                                     <th class="text-nowrap">Not Applicable</th>
                                                     <th class="text-nowrap">Parts Condition</th>
                                                     <th class="text-nowrap">Remarks</th>
-
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                        <tr v-for="(row, index) in tableData" :key="index">
-                                            <td>{{ row.equipment_info }}</td>
-                                     
-                                        </tr>
-                                    </tbody>
+                                                <tr v-for="(row, index) in visualData" :key="index">
+                                                    <td>{{ row.equipment_info }}</td>
+                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.pass" @change="handleCheckboxClick(index, 'pass')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.fail" @change="handleCheckboxClick(index, 'fail')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.na" @change="handleCheckboxClick(index, 'na')" /> </td>
+                                                    <td> <input type="text" class="form-control"/></td>
+                                                    <td> <input type="text" class="form-control"/></td>
+                                                </tr>
+                                            </tbody>
                                         </table>
+
                                     </div>
                                     <!-- end tab-pane -->
                                     <!-- begin tab-pane -->
@@ -223,7 +227,7 @@
                                         <table class="table table-striped table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th width="1%">Visual Inspection</th>
+                                                    <th width="1%">Cleaning</th>
                                                     <th width="10%">Pass</th>
                                                     <th class="text-nowrap">Fail</th>
                                                     <th class="text-nowrap">Not Applicable</th>
@@ -232,9 +236,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(row, index) in tableData" :key="row.id" class="odd gradeX">
+                                                <tr v-for="(row, index) in cleaningData" :key="row.id" class="odd gradeX">
                                                     <td>{{ row.equipment_info }}</td>
-                                                 
+                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.pass" @change="handleCheckboxClick(index, 'pass')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.fail" @change="handleCheckboxClick(index, 'fail')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.na" @change="handleCheckboxClick(index, 'na')" /> </td>
+                                                    <td> <input type="text" class="form-control"/></td>
+                                                    <td> <input type="text" class="form-control"/></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -256,13 +264,14 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
+                                                <tr v-for="(row, index) in batteryMainData" :key="row.id"
+                                                    class="odd gradeX">
+                                                    <td>{{ row.equipment_info }}</td>
+                                                    <td>
+                                                        <TextInput class="mt-3" v-model="is_pass" :required="true"
+                                                            type="checkbox" :readonly="true" />
+                                                    </td>
+
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -282,13 +291,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
-                                                    <td>n/a</td>
+                                                <tr v-for="(row, index) in estData" :key="row.id" class="odd gradeX">
+                                                    <td>{{ row.equipment_info }}</td>
+                                                    <td>
+                                                        <TextInput class="mt-3" v-model="is_pass" :required="true"
+                                                            type="checkbox" :readonly="true" />
+                                                    </td>
+
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -338,11 +347,19 @@ export default {
         const client = ref(null);
         const address = ref(null);
         const control_no = ref(null);
+        const is_pass = ref(null);
+        const condition = ref(null);
+        const remarks = ref(null);
+        const selectedCheckbox = ref(null);
+
 
         const equipment_list = ref([]);
         const client_list = ref([]);
         const department_list = ref([]);
-        const tableData = ref([]);
+        const visualData = ref([]);
+        const cleaningData = ref([]);
+        const batteryMainData = ref([]);
+        const estData = ref([]);
 
 
         const get_equipment = () => {
@@ -386,20 +403,62 @@ export default {
                 });
         };
 
-        const get_equipment_info = (id) => {
-            const url = `./api/get_equipment_info/${id}`;
+        const get_visual_equipment_info = (id) => {
+            const url = `./api/get_equipment_info/${id}?equipment_cat=1`;
             axios.get(url)
                 .then(response => {
-                  tableData.value = response.data.data;
+                    visualData.value = response.data.data;
                 })
                 .catch(error => {
                     console.error('Error fetching data:', error);
                 });
         };
 
+        const get_cleaning_equipment_info = (id) => {
+            const url = `./api/get_equipment_info/${id}?equipment_cat=2`;
+            axios.get(url)
+                .then(response => {
+                    cleaningData.value = response.data.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        };
+
+        const get_batmain_equipment_info = (id) => {
+            const url = `./api/get_equipment_info/${id}?equipment_cat=3`;
+            axios.get(url)
+                .then(response => {
+                    batteryMainData.value = response.data.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        };
+
+        const get_est_equipment_info = (id) => {
+            const url = `./api/get_equipment_info/${id}?equipment_cat=4`;
+            axios.get(url)
+                .then(response => {
+                    estData.value = response.data.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        };
+
+        const handleCheckboxClick = (colIndex, type) => {
+            const item = visualData.value[colIndex];
     
-
-
+            if (item) {
+                item.pass = type === 'pass';
+                item.fail = type === 'fail';
+                item.na = type === 'na';
+            } else {
+                console.error(`Invalid column index: ${colIndex}`);
+            }
+        };
+       
         watch(client, (newClient) => {
             if (newClient) {
                 const selectedClient = client_list.value.find(item => item.value === newClient.value);
@@ -412,7 +471,10 @@ export default {
 
         watch(equipment, (newEquipment) => {
             if (newEquipment) {
-                get_equipment_info(newEquipment.equipment_id);
+                get_visual_equipment_info(newEquipment.equipment_id);
+                get_cleaning_equipment_info(newEquipment.equipment_id);
+                get_batmain_equipment_info(newEquipment.equipment_id);
+                get_est_equipment_info(newEquipment.equipment_id);
             }
         });
 
@@ -429,15 +491,26 @@ export default {
             department,
             client,
             control_no,
+            is_pass,
+            condition,
+            remarks,
             address,
             equipment_list,
             client_list,
             department_list,
-            tableData,
+            visualData,
+            cleaningData,
+            batteryMainData,
+            estData,
             get_equipment,
             get_client,
             get_department,
-            get_equipment_info
+            get_visual_equipment_info,
+            get_cleaning_equipment_info,
+            get_batmain_equipment_info,
+            get_est_equipment_info,
+            selectedCheckbox,
+            handleCheckboxClick,
         };
     }
 }
