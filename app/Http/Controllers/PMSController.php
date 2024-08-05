@@ -63,5 +63,10 @@ class PMSController extends Controller
             return response()->json(['error' => 'An error occurred while fetching equipment info.'], 500);
         }
     }
+
+    public function post_preventive_maintenance(Request $req)
+    {
+        
+    }
     
 }

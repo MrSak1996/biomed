@@ -17,6 +17,11 @@
     height: 20px;
     /* Adjust height to match if needed */
 }
+
+.chk_box{
+    width:50px;
+    height:50px;
+}
 </style>
 <template>
     <div>
@@ -29,7 +34,7 @@
                 <li class="breadcrumb-item active">Preventive Maintenance Service</li>
             </ol>
             <h1 class="page-header">Job Order List</h1>
-            <form>
+            <form @submit.prevent="handleSubmit">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-inverse" data-sortable-id="index-10">
@@ -210,9 +215,9 @@
                                             <tbody>
                                                 <tr v-for="(row, index) in visualData" :key="index">
                                                     <td>{{ row.equipment_info }}</td>
-                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.pass" @change="handleCheckboxClick(index, 'pass')" /> </td>
-                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.fail" @change="handleCheckboxClick(index, 'fail')" /> </td>
-                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.na" @change="handleCheckboxClick(index, 'na')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.pass" @change="handleCheckboxClick(index, 'pass')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.fail" @change="handleCheckboxClick(index, 'fail')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.na" @change="handleCheckboxClick(index, 'na')" /> </td>
                                                     <td> <input type="text" class="form-control"/></td>
                                                     <td> <input type="text" class="form-control"/></td>
                                                 </tr>
@@ -238,9 +243,9 @@
                                             <tbody>
                                                 <tr v-for="(row, index) in cleaningData" :key="row.id" class="odd gradeX">
                                                     <td>{{ row.equipment_info }}</td>
-                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.pass" @change="handleCheckboxClick(index, 'pass')" /> </td>
-                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.fail" @change="handleCheckboxClick(index, 'fail')" /> </td>
-                                                    <td> <input type="checkbox" class="form-control" :value="row.id" :checked="row.na" @change="handleCheckboxClick(index, 'na')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.pass" @change="handleCleaningCheck(index, 'pass')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.fail" @change="handleCleaningCheck(index, 'fail')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.na"   @change="handleCleaningCheck(index, 'na')" /> </td>
                                                     <td> <input type="text" class="form-control"/></td>
                                                     <td> <input type="text" class="form-control"/></td>
                                                 </tr>
@@ -264,14 +269,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr v-for="(row, index) in batteryMainData" :key="row.id"
-                                                    class="odd gradeX">
+                                                <tr v-for="(row, index) in batteryMainData" :key="row.id" class="odd gradeX">
                                                     <td>{{ row.equipment_info }}</td>
-                                                    <td>
-                                                        <TextInput class="mt-3" v-model="is_pass" :required="true"
-                                                            type="checkbox" :readonly="true" />
-                                                    </td>
-
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.pass" @change="handleBatteryCheck(index, 'pass')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.fail" @change="handleBatteryCheck(index, 'fail')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.na"   @change="handleBatteryCheck(index, 'na')" /> </td>
+                                                    <td> <input type="text" class="form-control"/></td>
+                                                    <td> <input type="text" class="form-control"/></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -293,11 +297,11 @@
                                             <tbody>
                                                 <tr v-for="(row, index) in estData" :key="row.id" class="odd gradeX">
                                                     <td>{{ row.equipment_info }}</td>
-                                                    <td>
-                                                        <TextInput class="mt-3" v-model="is_pass" :required="true"
-                                                            type="checkbox" :readonly="true" />
-                                                    </td>
-
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.pass" @change="handleEstCheck(index, 'pass')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.fail" @change="handleEstCheck(index, 'fail')" /> </td>
+                                                    <td> <input type="checkbox" class="form-control chk_box" :value="row.id" :checked="row.na"   @change="handleEstCheck(index, 'na')" /> </td>
+                                                    <td> <input type="text" class="form-control"/></td>
+                                                    <td> <input type="text" class="form-control"/></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -308,7 +312,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-success col-lg-12">Save</button>
+                <button type="submit" class="btn btn-success col-lg-12">Save</button>
             </form>
         </div>
     </div>
@@ -458,6 +462,65 @@ export default {
                 console.error(`Invalid column index: ${colIndex}`);
             }
         };
+
+        const handleCleaningCheck = (colIndex, type) => {
+            const item = cleaningData.value[colIndex];
+    
+            if (item) {
+                item.pass = type === 'pass';
+                item.fail = type === 'fail';
+                item.na = type === 'na';
+            } else {    
+                console.error(`Invalid column index: ${colIndex}`);
+            }
+        };
+
+        const handleBatteryCheck = (colIndex, type) => {
+            const item = batteryMainData.value[colIndex];
+    
+            if (item) {
+                item.pass = type === 'pass';
+                item.fail = type === 'fail';
+                item.na = type === 'na';
+            } else {    
+                console.error(`Invalid column index: ${colIndex}`);
+            }
+        };
+
+        const handleEstCheck = (colIndex, type) => {
+            const item = estData.value[colIndex];
+    
+            if (item) {
+                item.pass = type === 'pass';
+                item.fail = type === 'fail';
+                item.na = type === 'na';
+            } else {    
+                console.error(`Invalid column index: ${colIndex}`);
+            }
+        };
+
+        
+        const handleSubmit = () => {
+            const formData = {
+                equipment: equipment.value,
+                department: department.value,
+                client: client.value,
+                control_no: control_no.value,
+                visualData: visualData.value,
+                cleaningData: cleaningData.value,
+                batteryMainData: batteryMainData.value,
+                estData: estData.value,
+                // Add other form fields here
+            };
+
+            axios.post('./api/post_preventive_maintenance', formData)
+                .then(response => {
+                    console.log('Form submitted successfully:', response.data);
+                })
+                .catch(error => {
+                    console.error('Error submitting form:', error);
+                });
+        };
        
         watch(client, (newClient) => {
             if (newClient) {
@@ -511,6 +574,11 @@ export default {
             get_est_equipment_info,
             selectedCheckbox,
             handleCheckboxClick,
+            handleCleaningCheck,
+            handleBatteryCheck,
+            handleEstCheck,
+            handleSubmit
+            
         };
     }
 }
