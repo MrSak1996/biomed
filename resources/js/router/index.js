@@ -6,6 +6,7 @@ import JobOrderFormView from '../components/technician/joborder_view.vue';
 import Task_sched from '../components/technician/task_sched.vue';
 import Task_management from '../components/technician/task_management.vue';
 import PMSForm from "../components/technician/pms.vue";
+import PMSCreate from "../components/technician/pms_create.vue";
 
 const routes = [
   {
@@ -47,6 +48,11 @@ const routes = [
     path: '/pms',
     name: 'Preventive Maintenance Service',
     component: PMSForm
+  },
+  {
+    path: '/pms-create',
+    name: 'Preventive Maintenance Service Create',
+    component: PMSCreate
   }
 ];
 

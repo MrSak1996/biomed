@@ -9,7 +9,6 @@
       :value="value"
       :checked="checked"
       @input="updateValue"
-      @change="updateValue"
       :readonly="readonly"
       :style="{ width: type === 'checkbox' ? '20px' : '', height: type === 'checkbox' ? '20px' : '' }"
     />
@@ -17,8 +16,6 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-
 export default {
   props: {
     value: {
@@ -50,21 +47,10 @@ export default {
       default: false
     }
   },
-  computed: {
-    inputValue: {
-      get() {
-        return this.type === 'checkbox' ? this.checked : this.value;
-      },
-      set(value) {
-        this.$emit('update:checked', value);
-        this.$emit('input', value);
-      }
-    }
-  },
   methods: {
     updateValue(event) {
       const value = this.type === 'checkbox' ? event.target.checked : event.target.value;
-      this.inputValue = value;
+      this.$emit('update:modelValue', value);
     }
   }
 };
