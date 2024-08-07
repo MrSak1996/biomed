@@ -1,7 +1,7 @@
 <style></style>
 <template>
     <div>
-        <Header />
+        <Header/>
         <Sidebar />
         <div id="content" class="content">
             <ol class="breadcrumb pull-right">
@@ -28,7 +28,7 @@
                         </div>
                         <div class="panel-body">
                             <router-link to="/pms-create" class="btn btn-primary mb-2">Create PMS
-                                </router-link>
+                            </router-link>
                             <table id="data-table-responsive" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -37,11 +37,28 @@
                                         <th class="text-nowrap">Client</th>
                                         <th class="text-nowrap">Department</th>
                                         <th class="text-nowrap">Equipment</th>
-                                        <th class="text-nowrap">Date Started</th>
-                                        <th class="text-nowrap">Date Completed</th>
-                                        <th class="text-nowrap">Action</th>
+                                        <th class="text-nowrap">PPM Date</th>
+                                        <th class="text-nowrap">PPM End Time</th>
+                                        <th class="text-nowrap">Next Due Date</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    <tr v-for="(item, index) in pmsData" :key="item.id" class="odd gradeX">
+                                        <td style="width: 6%;">
+                                            <a href="javascript:;" class="btn btn-success btn-icon btn-md"><i class="fa fa-eye"></i></a>&nbsp;
+                                            <button @click="exportPMSData(item.id)" class="btn btn-success btn-icon">
+                                                <font-awesome-icon :icon="['fa', 'download']" />
+                                            </button>
+                                        </td>
+                                        <td>{{ item.control_no }}</td>
+                                        <td>{{ item.client }}</td>
+                                        <td>{{ item.department }}</td>
+                                        <td>{{ item.equipment}}</td>
+                                        <td>{{ formatDate(item.ppm_date) }}</td>
+                                        <td>{{ item.ppm_end_time }}</td>
+                                        <td>{{ formatDate(item.next_due_date) }}</td>
+                                    </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -51,11 +68,67 @@
     </div>
 
 </template>
-<script setup>
-// import { ref, onMounted } from 'vue';
+<script>    
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import Header from "../../components/layout/header.vue";
 import Sidebar from "../../components/layout/sidebar.vue";
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCircleInfo, faDownload, faQuestion } from '@fortawesome/free-solid-svg-icons';
 
+library.add(faCircleInfo, faQuestion,faDownload);
+    export default {
+        name: 'Preventive Maintenance Service',
+        components: {
+        Header,
+        Sidebar,
+        FontAwesomeIcon
+    },
+    setup() {
+        const pmsData = ref([]);
+
+        const exportPMSData = (id) => {
+            window.location.href = `./api/export_pms_data/${id}?export=true`;
+        };
+
+        const getPMSData = () => {
+            const url = './api/get_pms_data';
+            axios.get(url)
+                .then(response => {
+                    pmsData.value = response.data.data;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        };
+
+        const formatDate = (date)=> {
+            if (!date || date === '0000-00-00') {
+                return null; // Return null if the date is null or '0000-00-00'
+            } else {
+                const formattedDate = new Date(date).toLocaleString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+
+                });
+                return formattedDate;
+            }
+        };
+
+        onMounted(() => {
+            getPMSData();
+        });
+
+        return {
+            formatDate,
+            pmsData,
+            exportPMSData,
+            getPMSData
+        };
+
+    }
+}
 
 </script>

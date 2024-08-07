@@ -36,10 +36,13 @@ Route::middleware('api')->group(function () {
     Route::get('get_taskdata_list',[TaskScheduleController::class, 'fetch_data']);
 
     //PMS
+    Route::get('get_pms_data',[PMSController::class, 'get_pms_data']);
     Route::get('get_equipment',[PMSController::class, 'get_equipment']);
     Route::get('get_client',[PMSController::class, 'get_client']);
     Route::get('get_department',[PMSController::class, 'get_department']);
     Route::get('get_equipment_info/{id}', [PMSController::class, 'get_equipment_info']);
+    Route::get('export_pms_data/{id}', [PMSController::class, 'get_pms_data']);
+
 
     
 

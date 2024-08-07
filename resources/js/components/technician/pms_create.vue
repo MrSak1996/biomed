@@ -94,7 +94,45 @@
                                         <TextInput class="mt-3" v-model="serial_no" :value="serial_no" placeholder=""
                                             label="Serial No." :required="true" type="text" />
                                     </div>
-
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="other_info1" :value="other_info1" placeholder=""
+                                            label="Other Information" :required="true" type="text" />
+                                    </div>
+                                   
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="ppm_date" :value="ppm_date" placeholder=""
+                                            label="PPM Date" :required="true" type="date" />
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="ppm_end_time" :value="ppm_end_time" placeholder=""
+                                            label="PPM End Time" :required="true" type="time" />
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="next_due_date" :value="next_due_date" placeholder=""
+                                            label="Next Due Date" :required="true" type="date" />
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="other_info2" :value="other_info2" placeholder=""
+                                            label="Other Information" :required="true" type="text" />
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="other_info3" :value="other_info3" placeholder=""
+                                            label="Other Information" :required="true" type="text" />
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="other_info4" :value="other_info4" placeholder=""
+                                            label="Other Information" :required="true" type="text" />
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="other_info5" :value="other_info5" placeholder=""
+                                            label="Other Information" :required="true" type="text" />
+                                    </div>
+                               
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <TextInput class="mt-3" v-model="other_info6" :value="other_info6" placeholder=""
+                                            label="Other Information" :required="true" type="text" />
+                                    </div>
+                                    
                                 </div>
 
                             </div>
@@ -380,6 +418,15 @@ export default {
         const brand = ref('');
         const model = ref('');
         const serial_no = ref('');
+        const ppm_date = ref('');
+        const ppm_end_time = ref('');
+        const next_due_date = ref('');
+        const other_info1 = ref('');
+        const other_info2 = ref('');
+        const other_info3 = ref('');
+        const other_info4 = ref('');
+        const other_info5 = ref('');
+        const other_info6 = ref('');
         const visual_is_pass = ref(null);
         const visual_is_fail = ref(null);
         const visual_is_na = ref(null);
@@ -545,6 +592,15 @@ export default {
                 brand: brand.value,
                 model: model.value,
                 serial_no: serial_no.value,
+                ppm_date:ppm_date.value,
+                ppm_end_time:ppm_end_time.value,
+                next_due_date:next_due_date.value,
+                other_info1:other_info1.value,
+                other_info2:other_info2.value,
+                other_info3:other_info3.value,
+                other_info4:other_info4.value,
+                other_info5:other_info5.value,
+                other_info6:other_info6.value,
                 visual_checklist: visualChecklist,
                 cleaning_checklist: cleaningChecklist,
                 bm_checklist: bmChecklist,
@@ -644,6 +700,15 @@ export default {
             brand,
             model,
             serial_no,
+            ppm_date,
+            ppm_end_time,
+            next_due_date,
+            other_info1,
+            other_info2,
+            other_info3,
+            other_info4,
+            other_info5,
+            other_info6,
             is_pass,
             condition,
             remarks,
