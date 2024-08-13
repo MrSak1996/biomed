@@ -14,6 +14,7 @@ class PMSChecklistModel extends Model
     protected $table = 'tbl_pms_checklist';
     protected $fillable = [
         'id',
+        'pms_id',
         'equipment_id',
         'equipment_info_id',
         'equipment_category',

@@ -663,8 +663,6 @@ export default {
             swal(options);
         };
 
-      
-
         watch(client, (newClient) => {
             if (newClient) {
                 const selectedClient = client_list.value.find(item => item.value === newClient.value);
@@ -683,7 +681,6 @@ export default {
                 get_est_equipment_info(newEquipment.equipment_id);
             }
         });
-
 
         onMounted(() => {
             get_equipment();

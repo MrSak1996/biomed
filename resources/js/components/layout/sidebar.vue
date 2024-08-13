@@ -19,9 +19,9 @@
             </li>
             <li>
                 <ul class="nav nav-profile">
-                    <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
-                    <li><a href="#"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
-                    <li><a href="#"><i class="fa fa-question-circle"></i> Helps</a></li>
+                    <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
+                    <li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
+                    <li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
                 </ul>
             </li>
         </ul>
@@ -67,7 +67,7 @@
             </li>
 
             <li class="has-sub">
-                <a href="#">
+                <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-table"></i>
                     <span>Technicians</span>
@@ -75,7 +75,7 @@
                 <ul class="sub-menu">
                     <li><a href="table_basic.html">Basic Tables</a></li>
                     <li class="has-sub">
-                        <a href="#"><b class="caret pull-right"></b> Managed Tables</a>
+                        <a href="javascript:;"><b class="caret pull-right"></b> Managed Tables</a>
                         <ul class="sub-menu">
                             <li><a href="table_manage.html">Default</a></li>
                             <li><a href="table_manage_autofill.html">Autofill</a></li>
@@ -94,7 +94,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#">
+                <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-star"></i>
                     <span>Customers</span>
@@ -107,7 +107,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#">
+                <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-envelope"></i>
                     <span>Services</span>
@@ -115,14 +115,16 @@
                 <ul class="sub-menu">
                     <li><a href="email_system.html">Repair</a></li>
                     <li><router-link to="/pms">PMS</router-link></li>
-                    <li><a href="email_newsletter.html">Callibration</a></li>
+                    <li><router-link to="/service-report">Service Report</router-link></li>
+                    <!-- <li><a href="email_newsletter.html">Callibration</a></li>
                     <li><a href="email_newsletter.html">Refurbishing</a></li>
                     <li><a href="email_newsletter.html">Installation</a></li>
-                    <li><a href="email_newsletter.html">Delivery</a></li>
+                    <li><a href="email_newsletter.html">Delivery</a></li> -->
+                    <li><router-link to="/summary-report">Summary Report</router-link></li>
                 </ul>
             </li>
              <li class="has-sub">
-                <a href="#">
+                <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-chart-pie"></i>
                     <span>Create Request</span>
@@ -135,7 +137,7 @@
                 </ul>
             </li>
             <li class="has-sub">
-                <a href="#">
+                <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-chart-pie"></i>
                     <span>Account Settings</span>

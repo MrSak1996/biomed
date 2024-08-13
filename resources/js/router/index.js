@@ -7,7 +7,9 @@ import Task_sched from '../components/technician/task_sched.vue';
 import Task_management from '../components/technician/task_management.vue';
 import PMSForm from "../components/technician/pms.vue";
 import PMSCreate from "../components/technician/pms_create.vue";
-
+import ServiceReport from "../components/technician/service-report.vue";
+import ServiceReportCreate from "../components/technician/service-report-create.vue";
+import SummaryReport from "../components/technician/summary-report.vue";
 const routes = [
   {
     path: '/',
@@ -53,7 +55,23 @@ const routes = [
     path: '/pms-create',
     name: 'Preventive Maintenance Service Create',
     component: PMSCreate
+  },
+  {
+    path: '/service-report',
+    name: 'Service Report',
+    component: ServiceReport
+  },
+  {
+    path: '/service-report-create',
+    name: 'Service Report Create',
+    component: ServiceReportCreate
+  },
+  {
+    path: '/summary-report',
+    name: 'Summary Report',
+    component: SummaryReport
   }
+
 ];
 
 const router = createRouter({
