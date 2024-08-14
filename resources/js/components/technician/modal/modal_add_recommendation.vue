@@ -4,7 +4,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Recommendation Details</h4>
+                        <h4 class="modal-title">Add Recommendation Details</h4>
                         <button
                             type="button"
                             class="close"
@@ -18,76 +18,68 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <label
-                                        for="warranty"
-                                        class="form-label"
+                                    <label for="warranty" class="form-label"
                                         >Warranty</label
                                     >
                                     <input
+                                        v-model="warranty"
                                         type="text"
                                         class="form-control"
                                         id="warranty"
-                                        aria-describedby="warranty"
                                     />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label
-                                        for="warranty"
-                                        class="form-label"
+                                    <label for="workStarted" class="form-label"
                                         >Work Started (Date/Time)</label
                                     >
                                     <input
-                                        type="text"
+                                        v-model="workStarted"
+                                        type="date"
                                         class="form-control"
-                                        id="warranty"
-                                        aria-describedby="warranty"
+                                        id="workStarted"
                                     />
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label
-                                        for="warranty"
+                                        for="workCompleted"
                                         class="form-label"
                                         >Work Completed (Date/Time)</label
                                     >
                                     <input
-                                        type="text"
+                                        v-model="workCompleted"
+                                        type="date"
                                         class="form-control"
-                                        id="warranty"
-                                        aria-describedby="warranty"
+                                        id="workCompleted"
                                     />
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <label
-                                        for="warranty"
-                                        class="form-label"
+                                    <label for="date" class="form-label"
                                         >Date</label
                                     >
                                     <input
-                                        type="text"
+                                        v-model="date"
+                                        type="date"
                                         class="form-control"
-                                        id="warranty"
-                                        aria-describedby="warranty"
+                                        id="date"
                                     />
                                 </div>
                             </div>
                             <div class="col-lg-12">
                                 <div class="mb-3">
-                                    <label
-                                        for="warranty"
-                                        class="form-label"
+                                    <label for="remarks" class="form-label"
                                         >Remarks</label
                                     >
                                     <input
+                                        v-model="remarks"
                                         type="text"
                                         class="form-control"
-                                        id="warranty"
-                                        aria-describedby="warranty"
+                                        id="remarks"
                                     />
                                 </div>
                             </div>
@@ -98,8 +90,7 @@
                             type="submit"
                             id="confirmButton"
                             class="btn btn-success"
-                            style="float: right"
-                            @click="saveData"
+                            @click="update"
                         >
                             Save
                         </button>
@@ -110,103 +101,93 @@
     </div>
 </template>
 
-<script>
-import { ref } from "vue";
-import Multiselect from "vue-multiselect";
+<script setup>
+import { ref, watch, computed } from "vue";
 import axios from "axios";
 
-export default {
-    components: {
-        Multiselect,
+// Props
+const props = defineProps({
+    selectedClientId: {
+        type: Number,
+        required: true,
     },
-    props: {
-        visible: {
-            type: Boolean,
-            required: true,
+    visible: Boolean,
+});
+
+// Reactive state
+const warranty = ref("");
+const workStarted = ref("");
+const workCompleted = ref("");
+const date = ref("");
+const remarks = ref("");
+const emit = defineEmits(["close"]);
+
+// Computed properties for form handling (if needed)
+const formData = computed(() => ({
+    id: props.selectedClientId,
+    warranty: warranty.value,
+    workStarted: workStarted.value,
+    workCompleted: workCompleted.value,
+    date: date.value,
+    remarks: remarks.value,
+}));
+
+// Update function
+const update = async () => {
+    try {
+        await axios.postForm(
+            `./api/post_update_service_details`,
+            formData.value
+        );
+        setTimeout(() => {
+            showSweetAlert("success");
+            location.reload();
+        }, 1000);
+        // Handle successful update (e.g., show a message or close the modal)
+    } catch (error) {
+        console.error("Error updating client details:", error);
+        // Handle error (e.g., show an error message)
+    }
+};
+const close = () => {
+    emit("close");
+};
+const showSweetAlert = (type) => {
+    let options = {
+        title: "Successfully saved!",
+        text: "Your data has been saved successfully.",
+        icon: type === "success" ? "success" : "info",
+        buttons: {
+            cancel: {
+                text: "Cancel",
+                value: null,
+                visible: true,
+                className: "btn btn-default",
+                closeModal: true,
+            },
+            confirm: {
+                text: type.charAt(0).toUpperCase() + type.slice(1),
+                value: true,
+                visible: true,
+                className: `btn btn-${type}`,
+                closeModal: true,
+            },
         },
-    },
-    setup(props, { emit }) {
-        const title = ref("");
-        const sel_technicians = ref([
-            { label: "DESKTOP/LAPTOP REPAIR", value: 1 },
-            { label: "HARDWARE INSTALLATION", value: 2 },
-            { label: "PRINTER/SCANNER/COPIER", value: 3 },
-        ]);
-        const sel_clients = ref([{ label: "Health Serv" }]);
+    };
 
-        const close = () => {
-            emit("close");
+    if (type === "success") {
+        options = {
+            title: "Successfully save",
+            text: "",
+            icon: "success",
         };
+    } else if (type === "danger") {
+        options.icon = "error";
+    } else if (type === "warning") {
+        options.icon = "warning";
+    }
 
-        const saveData = () => {
-            axios
-                .post("/api/post_create_event", {
-                    posted_by: 1,
-                    client: props.eventDetails.client,
-                    technician: props.eventDetails.technician,
-                    title: props.eventDetails.title,
-                    start: props.eventDetails.start,
-                    end: props.eventDetails.end,
-                    description: props.eventDetails.description,
-                })
-                .then(() => {
-                    setTimeout(() => {
-                        showSweetAlert("success");
-                        location.reload();
-                    }, 1000);
-                })
-                .catch((error) => {
-                    console.error("An error occurred:", error);
-                });
-        };
-
-        const showSweetAlert = (type) => {
-            let options = {
-                title: "Successfully saved!",
-                text: "Your data has been saved successfully.",
-                icon: type === "success" ? "success" : "info",
-                buttons: {
-                    cancel: {
-                        text: "Cancel",
-                        value: null,
-                        visible: true,
-                        className: "btn btn-default",
-                        closeModal: true,
-                    },
-                    confirm: {
-                        text: type.charAt(0).toUpperCase() + type.slice(1),
-                        value: true,
-                        visible: true,
-                        className: `btn btn-${type}`,
-                        closeModal: true,
-                    },
-                },
-            };
-
-            if (type === "success") {
-                options = {
-                    title: "Successfully saved",
-                    text: "",
-                    icon: "success",
-                };
-            } else if (type === "danger") {
-                options.icon = "error";
-            } else if (type === "warning") {
-                options.icon = "warning";
-            }
-
-            swal(options);
-        };
-
-        return {
-            title,
-            sel_technicians,
-            sel_clients,
-            close,
-            saveData,
-            showSweetAlert,
-        };
-    },
+    swal(options);
 };
 </script>
 

@@ -2,6 +2,7 @@
 use App\Http\Controllers\JobOrderController;
 use App\Http\Controllers\TaskScheduleController;
 use App\Http\Controllers\PMSController;
+use App\Http\Controllers\ServiceReportController;
 
 
 
@@ -42,12 +43,13 @@ Route::middleware('api')->group(function () {
     Route::get('get_department',[PMSController::class, 'get_department']);
     Route::get('get_equipment_info/{id}', [PMSController::class, 'get_equipment_info']);
     Route::get('export_pms_data/{id}', [PMSController::class, 'get_pms_data']);
-
-
-    
+    Route::get('export_service_report/{id}', [ServiceReportController::class, 'get_service_details']);
+    Route::get('get_service_details', [ServiceReportController::class, 'get_service_details']);
 
 });
 Route::post('post_create_job_order',[JobOrderController::class,'post_create_job_order']);
 Route::post('post_create_event',[TaskScheduleController::class,'post_create_event']);
 Route::post('post_preventive_maintenance',[PMSController::class,'post_preventive_maintenance']);
+Route::post('post_create_service_details',[ServiceReportController::class,'post_create_service_details']);
+Route::post('post_update_service_details',[ServiceReportController::class,'post_update_service_details']);
 

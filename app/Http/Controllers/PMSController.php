@@ -19,7 +19,7 @@ use Carbon\Carbon;
 
 class PMSController extends Controller
 {
-    public function get_pms_data(Request $req, $id = null)
+    public function get_pms_data(Request $req, $id = null) 
     {
         try {
             $data = PMSModel::select([
@@ -93,7 +93,7 @@ class PMSController extends Controller
     public function get_client()
     {
         return response()->json(
-            ClientModel::select(ClientModel::raw('id,client,control_no'))
+            ClientModel::select(ClientModel::raw('id,client,control_no,address'))
                 ->get()
         );
     }
