@@ -43,7 +43,7 @@ class ServiceReportController extends Controller
         try {
             $data = ServiceReportModel::select([
                 'tbl_service_details.id',
-                'tbl_service_details.service_type',
+                'tbl_service_type.service_type',
                 'tbl_client.client',
                 'tbl_client.address',
                 'tbl_service_details.service_date',
@@ -62,6 +62,7 @@ class ServiceReportController extends Controller
                 'tbl_service_details.created_at'
             ])
                 ->leftJoin('tbl_client', 'tbl_service_details.client_id', '=', 'tbl_client.id')
+                ->leftJoin('tbl_service_type', 'tbl_service_type.id', '=', 'tbl_service_details.service_type')
                 ->get();
                 if ($req->has('export')) {
                     return $this->export_service_details($data);

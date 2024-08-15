@@ -10,6 +10,8 @@ import PMSCreate from "../components/technician/pms_create.vue";
 import ServiceReport from "../components/technician/service-report.vue";
 import ServiceReportCreate from "../components/technician/service-report-create.vue";
 import SummaryReport from "../components/technician/summary-report.vue";
+import ServiceQuotation from "../components/technician/service-quotation.vue";
+import ServiceQuotationCreate from "../components/technician/service-quotation-create.vue";
 const routes = [
   {
     path: '/',
@@ -70,6 +72,16 @@ const routes = [
     path: '/summary-report',
     name: 'Summary Report',
     component: SummaryReport
+  },
+  {
+    path: '/service-quotation',
+    name: 'Service Quotation',
+    component:ServiceQuotation
+  },
+  {
+    path: '/service-quotation-create',
+    name: 'Service Quotation Create',
+    component:ServiceQuotationCreate
   }
 
 ];

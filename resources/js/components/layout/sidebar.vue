@@ -57,16 +57,16 @@
                     <li><router-link to="#">Report Generator</router-link></li>
                 </ul>
             </li>
-            <li>
-                <router-link to="/inventory">
+            <li :class="{ active: isActive('/inventory')}" class="has-sub">
+                    <a :href="$router.resolve({path: '/inventory'}).href">
                     <div class="icon-img">
                         <img :src="logo" alt="" />
                     </div>
                     <span>Inventory <span class="label label-theme m-l-5">NEW</span></span>
-                </router-link>
+                </a>
             </li>
 
-            <li class="has-sub">
+            <!-- <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
                     <i class="fa fa-table"></i>
@@ -105,7 +105,7 @@
                     <li><a href="../../../frontend/template/template_forum/index.html" target="_blank">Forum</a></li>
                     <li><a href="../../../frontend/template/template_e_commerce/index.html" target="_blank">E-Commerce</a></li>
                 </ul>
-            </li>
+            </li> -->
             <li class="has-sub">
                 <a href="javascript:;">
                     <b class="caret"></b>
@@ -114,13 +114,14 @@
                 </a>
                 <ul class="sub-menu">
                     <li><a href="email_system.html">Repair</a></li>
-                    <li><router-link to="/pms">PMS</router-link></li>
-                    <li><router-link to="/service-report">Service Report</router-link></li>
+                    <li><a :href="$router.resolve({path: '/pms'}).href"> PMS</a></li>
+                    <li><a :href="$router.resolve({path: '/service-quotation'}).href"> Service Quotation</a></li>
+                    <li><a :href="$router.resolve({path: '/service-report'}).href"> Service Report</a></li>
+                    <li><a :href="$router.resolve({path: '/summary-report'}).href"> Summary Report</a></li>
                     <!-- <li><a href="email_newsletter.html">Callibration</a></li>
                     <li><a href="email_newsletter.html">Refurbishing</a></li>
                     <li><a href="email_newsletter.html">Installation</a></li>
                     <li><a href="email_newsletter.html">Delivery</a></li> -->
-                    <li><router-link to="/summary-report">Summary Report</router-link></li>
                 </ul>
             </li>
              <li class="has-sub">
