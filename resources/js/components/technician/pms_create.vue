@@ -388,6 +388,7 @@
 
 <script>
 import { ref, onMounted, watch, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import axios from 'axios';
 import Multiselect from 'vue-multiselect';
@@ -611,10 +612,11 @@ export default {
                 .then(response => {
                     // console.log('Form submitted successfully:', response.data);
                     // this.showToatSuccess('Successfully created!');
-                    setTimeout(() => {
-                        showSweetAlert('success');
-                        location.reload();
-                    }, 1000); // Adjust the delay as needed
+                    console.log(formData.equipment);
+                    //setTimeout(() => {
+                        // showSweetAlert('success');
+                        // location.reload();
+                    // }, 1000); // Adjust the delay as needed
                 })
                 .catch(error => {
                     console.error('Error submitting form:', error);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2024 at 10:11 AM
+-- Generation Time: Sep 06, 2024 at 07:17 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.1.25
 
@@ -275,7 +275,7 @@ INSERT INTO `tbl_equipment` (`id`, `equipment`) VALUES
 (5, 'TDS Meter                                    '),
 (6, 'SUCTION MACHINE '),
 (7, 'ECG MACHINE'),
-(8, 'AIR FLOW O2 GAUGE / FLOW METER'),
+(8, 'AIR FLOW O2 GAUGE - FLOW METER'),
 (9, 'Patient Monitor'),
 (10, 'HOSPITAL BED/STRECHER'),
 (11, 'ANESTHESIA MACHINE'),
@@ -445,22 +445,155 @@ INSERT INTO `tbl_joborder` (`id`, `control_no`, `request_by`, `request_date`, `s
 
 CREATE TABLE `tbl_pms` (
   `id` int(11) NOT NULL,
-  `control_no` varchar(255) NOT NULL DEFAULT '',
-  `client_id` int(11) NOT NULL DEFAULT 0,
-  `department_id` int(11) NOT NULL DEFAULT 0,
-  `serial_asset_no` varchar(255) NOT NULL DEFAULT '',
-  `model` varchar(255) NOT NULL DEFAULT '',
-  `brand` varchar(255) NOT NULL DEFAULT '',
+  `control_no` varchar(255) DEFAULT '',
+  `equipment_id` int(11) DEFAULT NULL,
+  `client_id` int(11) DEFAULT NULL,
+  `department_id` int(11) DEFAULT NULL,
+  `serial_asset_no` varchar(255) DEFAULT '',
+  `model` varchar(255) DEFAULT '',
+  `brand` varchar(255) DEFAULT '',
   `ppm_date` date DEFAULT NULL,
   `next_due_date` date DEFAULT NULL,
-  `ppm_end_time` date DEFAULT NULL,
-  `other_info1` varchar(255) NOT NULL DEFAULT '',
-  `other_info2` varchar(255) NOT NULL DEFAULT '',
-  `other_info3` varchar(255) NOT NULL DEFAULT '',
-  `other_info4` varchar(255) NOT NULL DEFAULT '',
-  `other_info5` varchar(255) NOT NULL DEFAULT '',
-  `other_info6` varchar(255) NOT NULL DEFAULT ''
+  `ppm_end_time` time DEFAULT NULL,
+  `other_info1` varchar(255) DEFAULT '',
+  `other_info2` varchar(255) DEFAULT '',
+  `other_info3` varchar(255) DEFAULT '',
+  `other_info4` varchar(255) DEFAULT '',
+  `other_info5` varchar(255) DEFAULT '',
+  `other_info6` varchar(255) DEFAULT '',
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_pms`
+--
+
+INSERT INTO `tbl_pms` (`id`, `control_no`, `equipment_id`, `client_id`, `department_id`, `serial_asset_no`, `model`, `brand`, `ppm_date`, `next_due_date`, `ppm_end_time`, `other_info1`, `other_info2`, `other_info3`, `other_info4`, `other_info5`, `other_info6`, `updated_at`, `created_at`) VALUES
+(1, 'BTSI-BLH', 8, 3, 5, 'a', 'a', 'a', '2024-08-12', '2024-08-12', '14:44:00', 'a', 'a', 'a', 'a', 'a', 'a', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(2, 'BTSI-SJBMCI', 8, 21, 1, 'a', 'a', 'a', '2024-08-12', '2024-08-12', '14:45:00', 'a', 'a', 'a', 'a', 'a', 'a', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(3, 'BTSI-MRDH', 8, 13, 15, 'sample', 'sample', 'sample', '2024-08-22', '2024-08-22', '13:48:00', 'sample', 'sample', 'sample', 'sample', 'sample', 'sample', '2024-08-22 05:48:48', '2024-08-22 05:48:48'),
+(4, 'BTSI-BMC', 8, 2, 1, 'a', 'a', 'a', '2024-08-28', '2024-08-28', '09:18:00', 'a', 'a', 'a', 'a', 'a', 'a', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(5, 'BTSI-ASH', 8, 1, 1, NULL, 'a', 'a', '2024-08-28', '2024-08-28', '09:18:00', 'a', 'q', 'q', 'q', 'q', 'q', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(6, 'BTSI-ASH', 8, 1, 1, NULL, 'a', 'a', '2024-08-28', '2024-08-28', '09:18:00', 'a', 'q', 'q', 'q', 'q', 'q', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(7, 'BTSI-ASH', 8, 1, 1, 'a', 'a', 'a', '2024-08-28', '2024-08-28', '09:25:00', 'a', 'a', 'a', 'a', 'a', 'a', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(8, 'BTSI-ASH', 8, 1, 1, 'a', 'a', 'a', '2024-08-28', '2024-08-28', '09:25:00', 'a', 'a', 'a', 'a', 'a', 'a', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(9, 'BTSI-ASH', 8, 1, 2, 'a', 'a', 'a', '2024-08-28', '2024-08-28', '09:34:00', 'a', 'a', 'a', 'a', 'a', 'a', '2024-08-28 01:34:11', '2024-08-28 01:34:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_pms_checklist`
+--
+
+CREATE TABLE `tbl_pms_checklist` (
+  `id` int(11) NOT NULL,
+  `pms_id` int(11) DEFAULT NULL,
+  `equipment_id` int(11) DEFAULT NULL,
+  `equipment_info_id` int(11) NOT NULL,
+  `equipment_category` int(11) DEFAULT NULL,
+  `is_pass` char(50) DEFAULT NULL,
+  `is_fail` char(50) DEFAULT NULL,
+  `is_na` char(50) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_pms_checklist`
+--
+
+INSERT INTO `tbl_pms_checklist` (`id`, `pms_id`, `equipment_id`, `equipment_info_id`, `equipment_category`, `is_pass`, `is_fail`, `is_na`, `updated_at`, `created_at`) VALUES
+(1, 1, 8, 1, 1, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(2, 1, 8, 2, 1, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(3, 1, 8, 3, 1, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(4, 1, 8, 4, 1, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(5, 1, 8, 5, 1, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(6, 1, 8, 6, 1, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(7, 1, 8, 7, 1, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(8, 1, 8, 8, 2, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(9, 1, 8, 9, 2, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(10, 1, 8, 10, 2, '1', '0', '0', '2024-08-12 06:44:51', '2024-08-12 06:44:51'),
+(11, 2, 8, 1, 1, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(12, 2, 8, 2, 1, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(13, 2, 8, 3, 1, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(14, 2, 8, 4, 1, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(15, 2, 8, 5, 1, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(16, 2, 8, 6, 1, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(17, 2, 8, 7, 1, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(18, 2, 8, 8, 2, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(19, 2, 8, 9, 2, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(20, 2, 8, 10, 2, '1', '0', '0', '2024-08-12 06:46:01', '2024-08-12 06:46:01'),
+(21, 3, 8, 1, 1, '1', '0', '0', '2024-08-22 05:48:48', '2024-08-22 05:48:48'),
+(22, 3, 8, 2, 1, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(23, 3, 8, 3, 1, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(24, 3, 8, 4, 1, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(25, 3, 8, 5, 1, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(26, 3, 8, 6, 1, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(27, 3, 8, 7, 1, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(28, 3, 8, 8, 2, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(29, 3, 8, 9, 2, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(30, 3, 8, 10, 2, '1', '0', '0', '2024-08-22 05:48:49', '2024-08-22 05:48:49'),
+(31, 4, 8, 1, 1, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(32, 4, 8, 2, 1, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(33, 4, 8, 3, 1, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(34, 4, 8, 4, 1, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(35, 4, 8, 5, 1, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(36, 4, 8, 6, 1, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(37, 4, 8, 7, 1, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(38, 4, 8, 8, 2, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(39, 4, 8, 9, 2, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(40, 4, 8, 10, 2, '1', '0', '0', '2024-08-28 01:18:19', '2024-08-28 01:18:19'),
+(41, 5, 8, 1, 1, '1', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(42, 5, 8, 2, 1, '1', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(43, 5, 8, 3, 1, '1', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(44, 5, 8, 4, 1, '1', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(45, 5, 8, 5, 1, '1', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(46, 5, 8, 6, 1, '1', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(47, 5, 8, 7, 1, '1', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(48, 5, 8, 8, 2, '0', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(49, 5, 8, 9, 2, '0', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(50, 5, 8, 10, 2, '0', '0', '0', '2024-08-28 01:24:39', '2024-08-28 01:24:39'),
+(51, 6, 8, 1, 1, '1', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(52, 6, 8, 2, 1, '1', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(53, 6, 8, 3, 1, '1', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(54, 6, 8, 4, 1, '1', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(55, 6, 8, 5, 1, '1', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(56, 6, 8, 6, 1, '1', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(57, 6, 8, 7, 1, '1', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(58, 6, 8, 8, 2, '0', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(59, 6, 8, 9, 2, '0', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(60, 6, 8, 10, 2, '0', '0', '0', '2024-08-28 01:24:40', '2024-08-28 01:24:40'),
+(61, 7, 8, 1, 1, '1', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(62, 7, 8, 2, 1, '1', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(63, 7, 8, 3, 1, '1', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(64, 7, 8, 4, 1, '1', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(65, 7, 8, 5, 1, '1', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(66, 7, 8, 6, 1, '1', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(67, 7, 8, 7, 1, '1', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(68, 7, 8, 8, 2, '0', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(69, 7, 8, 9, 2, '0', '0', '0', '2024-08-28 01:25:26', '2024-08-28 01:25:26'),
+(70, 7, 8, 10, 2, '0', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(71, 8, 8, 1, 1, '1', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(72, 8, 8, 2, 1, '1', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(73, 8, 8, 3, 1, '1', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(74, 8, 8, 4, 1, '1', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(75, 8, 8, 5, 1, '1', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(76, 8, 8, 6, 1, '1', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(77, 8, 8, 7, 1, '1', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(78, 8, 8, 8, 2, '0', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(79, 8, 8, 9, 2, '0', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(80, 8, 8, 10, 2, '0', '0', '0', '2024-08-28 01:25:27', '2024-08-28 01:25:27'),
+(81, 9, 8, 1, 1, '1', '0', '0', '2024-08-28 01:34:12', '2024-08-28 01:34:12'),
+(82, 9, 8, 2, 1, '1', '0', '0', '2024-08-28 01:34:12', '2024-08-28 01:34:12'),
+(83, 9, 8, 3, 1, '1', '0', '0', '2024-08-28 01:34:12', '2024-08-28 01:34:12'),
+(84, 9, 8, 4, 1, '1', '0', '0', '2024-08-28 01:34:12', '2024-08-28 01:34:12'),
+(85, 9, 8, 5, 1, '1', '0', '0', '2024-08-28 01:34:12', '2024-08-28 01:34:12'),
+(86, 9, 8, 6, 1, '1', '0', '0', '2024-08-28 01:34:12', '2024-08-28 01:34:12'),
+(87, 9, 8, 7, 1, '1', '0', '0', '2024-08-28 01:34:12', '2024-08-28 01:34:12'),
+(88, 9, 8, 8, 2, '0', '0', '0', '2024-08-28 01:34:12', '2024-08-28 01:34:12'),
+(89, 9, 8, 9, 2, '0', '0', '0', '2024-08-28 01:34:13', '2024-08-28 01:34:13'),
+(90, 9, 8, 10, 2, '0', '0', '0', '2024-08-28 01:34:13', '2024-08-28 01:34:13');
 
 -- --------------------------------------------------------
 
@@ -480,6 +613,120 @@ CREATE TABLE `tbl_roles` (
 INSERT INTO `tbl_roles` (`id`, `role_title`) VALUES
 (1, 'admin'),
 (2, 'technician');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_service_details`
+--
+
+CREATE TABLE `tbl_service_details` (
+  `id` int(11) NOT NULL,
+  `service_type` int(11) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `service_date` date NOT NULL,
+  `equipment_type` varchar(255) NOT NULL,
+  `model` varchar(255) NOT NULL,
+  `brand` varchar(255) NOT NULL,
+  `serial_no` varchar(255) NOT NULL,
+  `location` varchar(255) DEFAULT NULL,
+  `problem_reported` text NOT NULL,
+  `service_rendered` text NOT NULL,
+  `defects_found` text NOT NULL,
+  `action_taken` text NOT NULL,
+  `status_after_service` text NOT NULL,
+  `engineers_remarks` text NOT NULL,
+  `warranty` varchar(50) DEFAULT '',
+  `work_started` date DEFAULT NULL,
+  `work_completed` date DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `remarks` varchar(255) DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_service_details`
+--
+
+INSERT INTO `tbl_service_details` (`id`, `service_type`, `client_id`, `service_date`, `equipment_type`, `model`, `brand`, `serial_no`, `location`, `problem_reported`, `service_rendered`, `defects_found`, `action_taken`, `status_after_service`, `engineers_remarks`, `warranty`, `work_started`, `work_completed`, `date`, `remarks`, `updated_at`, `created_at`) VALUES
+(1, 1, 2, '2024-08-21', 'aa', 'aa', 'aa', 'aa', NULL, 'aa', 'aa', 'aa', 'aa', 'aa', 'aa', 'waaaaaaaa', '2024-08-22', '2024-08-22', '2024-08-22', 'wdwwd', '2024-08-22 05:44:10', '2024-08-14 06:01:17'),
+(2, 2, 8, '2024-08-14', 'sample', 'sample', 'sample', 'sample', NULL, 'sample', 'sample', 'sample', 'sample', 'sample', 'sample', 'waaaaaaaa', '2024-08-31', '2024-08-31', '2024-08-31', 'aaaawdwdwdw', '2024-08-14 08:02:13', '2024-08-14 06:07:13'),
+(3, 1, 2, '2024-08-14', 'a', 'a', 'a', 'a', NULL, 'a', 'a', 'a', 'a', 'a', 'a', 'wfdawddwd', '2024-08-14', '2024-08-14', '2024-08-14', 'wdawdwdwdw', '2024-08-14 08:03:13', '2024-08-14 06:43:32'),
+(4, 3, 1, '2024-08-23', 'a', 'a', 'a', 'a', NULL, 'a', 'a', 'a', 'a', 'a', 'a', 'a', '2024-08-15', '2024-08-15', '2024-08-15', 'aa', '2024-08-15 06:40:02', '2024-08-15 06:39:12'),
+(5, 3, 7, '2024-08-22', 'sample', 'sample', 'sample', 'sample', NULL, 'sample', 'sample', 'sample', 'sample', 'sample', 'sample', '', NULL, NULL, NULL, NULL, '2024-08-22 05:43:10', '2024-08-22 05:43:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_service_quotation`
+--
+
+CREATE TABLE `tbl_service_quotation` (
+  `id` int(11) NOT NULL,
+  `service_quotation_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `unit` varchar(50) NOT NULL,
+  `description` varchar(50) NOT NULL,
+  `labor` double NOT NULL,
+  `parts` varchar(50) NOT NULL,
+  `total_cost` double NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_service_quotation_info`
+--
+
+CREATE TABLE `tbl_service_quotation_info` (
+  `id` int(11) NOT NULL,
+  `control_no` varchar(100) NOT NULL,
+  `client_id` int(11) NOT NULL,
+  `service_type_id` int(11) NOT NULL,
+  `service_date` date NOT NULL,
+  `equipment_type_id` int(11) NOT NULL,
+  `model` varchar(50) NOT NULL DEFAULT '',
+  `brand` varchar(50) NOT NULL DEFAULT '',
+  `serial_no` varchar(50) NOT NULL DEFAULT '',
+  `department_id` int(11) NOT NULL,
+  `complaint` varchar(50) NOT NULL,
+  `defects` varchar(50) NOT NULL,
+  `work_done` varchar(50) NOT NULL,
+  `remarks` varchar(50) NOT NULL,
+  `assessed_by` varchar(50) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_service_quotation_info`
+--
+
+INSERT INTO `tbl_service_quotation_info` (`id`, `control_no`, `client_id`, `service_type_id`, `service_date`, `equipment_type_id`, `model`, `brand`, `serial_no`, `department_id`, `complaint`, `defects`, `work_done`, `remarks`, `assessed_by`, `updated_at`, `created_at`) VALUES
+(1, '1234', 1, 2, '2024-08-15', 14, 'aa', 'aa', 'aa', 16, 'aa', 'aa', 'a', 'a', 'a', '2024-08-15 06:38:28', '2024-08-15 06:38:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_service_type`
+--
+
+CREATE TABLE `tbl_service_type` (
+  `id` int(11) NOT NULL,
+  `service_type` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_service_type`
+--
+
+INSERT INTO `tbl_service_type` (`id`, `service_type`) VALUES
+(1, 'Assessment'),
+(2, 'Assessment/Repair'),
+(3, 'Repair'),
+(4, 'Corrective Maintenance'),
+(5, 'PMS Calibration');
 
 -- --------------------------------------------------------
 
@@ -532,7 +779,8 @@ INSERT INTO `tbl_taskschedule` (`id`, `client_id`, `technician_id`, `office`, `t
 (7, NULL, 4, NULL, 'PMS 7', '2024-07-27', '2024-07-30', '#0097A7', 'dwdwdwdw', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-27', '2024-07-27'),
 (8, NULL, NULL, NULL, 'sasasa', '2024-07-22', '2024-07-23', '#0097A7', 'efefef', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-30', '2024-07-30'),
 (9, NULL, NULL, NULL, 'sasasa', '2024-07-22', '2024-07-23', '#0097A7', 'efefef', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-30', '2024-07-30'),
-(10, NULL, NULL, NULL, 'dww', '2024-07-16', '2024-07-17', '#0097A7', 'wdwdwdwdw', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-30', '2024-07-30');
+(10, NULL, NULL, NULL, 'dww', '2024-07-16', '2024-07-17', '#0097A7', 'wdwdwdwdw', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-07-30', '2024-07-30'),
+(11, NULL, NULL, NULL, 'sample', '2024-08-23', '2024-08-24', '#0097A7', 'sample', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-08-22', '2024-08-22');
 
 -- --------------------------------------------------------
 
@@ -640,12 +888,51 @@ ALTER TABLE `tbl_joborder`
 --
 ALTER TABLE `tbl_pms`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_department_id` (`department_id`);
+  ADD KEY `FK_dept_id` (`department_id`),
+  ADD KEY `equipment_id` (`equipment_id`),
+  ADD KEY `client_id` (`client_id`);
+
+--
+-- Indexes for table `tbl_pms_checklist`
+--
+ALTER TABLE `tbl_pms_checklist`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `equipment_id` (`equipment_id`),
+  ADD KEY `equipment_category` (`equipment_category`),
+  ADD KEY `pms_id` (`pms_id`);
 
 --
 -- Indexes for table `tbl_roles`
 --
 ALTER TABLE `tbl_roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_service_details`
+--
+ALTER TABLE `tbl_service_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_client_id` (`client_id`);
+
+--
+-- Indexes for table `tbl_service_quotation`
+--
+ALTER TABLE `tbl_service_quotation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_service_quotation_id` (`service_quotation_id`);
+
+--
+-- Indexes for table `tbl_service_quotation_info`
+--
+ALTER TABLE `tbl_service_quotation_info`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_id` (`client_id`),
+  ADD KEY `equipment_type_id` (`equipment_type_id`);
+
+--
+-- Indexes for table `tbl_service_type`
+--
+ALTER TABLE `tbl_service_type`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -729,7 +1016,13 @@ ALTER TABLE `tbl_joborder`
 -- AUTO_INCREMENT for table `tbl_pms`
 --
 ALTER TABLE `tbl_pms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tbl_pms_checklist`
+--
+ALTER TABLE `tbl_pms_checklist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `tbl_roles`
@@ -738,10 +1031,22 @@ ALTER TABLE `tbl_roles`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `tbl_service_details`
+--
+ALTER TABLE `tbl_service_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tbl_service_quotation_info`
+--
+ALTER TABLE `tbl_service_quotation_info`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `tbl_taskschedule`
 --
 ALTER TABLE `tbl_taskschedule`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -770,7 +1075,36 @@ ALTER TABLE `tbl_equipment_info`
 -- Constraints for table `tbl_pms`
 --
 ALTER TABLE `tbl_pms`
-  ADD CONSTRAINT `fk_department_id` FOREIGN KEY (`department_id`) REFERENCES `tbl_client_department` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_dept_id` FOREIGN KEY (`department_id`) REFERENCES `tbl_department` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `tbl_pms_ibfk_1` FOREIGN KEY (`equipment_id`) REFERENCES `tbl_equipment` (`id`),
+  ADD CONSTRAINT `tbl_pms_ibfk_2` FOREIGN KEY (`client_id`) REFERENCES `tbl_client` (`id`);
+
+--
+-- Constraints for table `tbl_pms_checklist`
+--
+ALTER TABLE `tbl_pms_checklist`
+  ADD CONSTRAINT `tbl_pms_checklist_ibfk_1` FOREIGN KEY (`equipment_id`) REFERENCES `tbl_equipment` (`id`),
+  ADD CONSTRAINT `tbl_pms_checklist_ibfk_2` FOREIGN KEY (`equipment_category`) REFERENCES `tbl_equipment_category` (`id`),
+  ADD CONSTRAINT `tbl_pms_checklist_ibfk_3` FOREIGN KEY (`pms_id`) REFERENCES `tbl_pms` (`id`);
+
+--
+-- Constraints for table `tbl_service_details`
+--
+ALTER TABLE `tbl_service_details`
+  ADD CONSTRAINT `FK_client_id` FOREIGN KEY (`client_id`) REFERENCES `tbl_client` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `tbl_service_quotation`
+--
+ALTER TABLE `tbl_service_quotation`
+  ADD CONSTRAINT `FK_service_quotation_id` FOREIGN KEY (`service_quotation_id`) REFERENCES `tbl_service_quotation_info` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `tbl_service_quotation_info`
+--
+ALTER TABLE `tbl_service_quotation_info`
+  ADD CONSTRAINT `tbl_service_quotation_info_ibfk_1` FOREIGN KEY (`client_id`) REFERENCES `tbl_client` (`id`),
+  ADD CONSTRAINT `tbl_service_quotation_info_ibfk_2` FOREIGN KEY (`equipment_type_id`) REFERENCES `tbl_equipment` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
