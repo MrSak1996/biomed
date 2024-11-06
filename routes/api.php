@@ -4,6 +4,8 @@ use App\Http\Controllers\TaskScheduleController;
 use App\Http\Controllers\PMSController;
 use App\Http\Controllers\ServiceReportController;
 use App\Http\Controllers\ServiceQuotationController;
+use App\Http\Controllers\Login\AuthController;
+
 
 
 
@@ -24,6 +26,15 @@ use App\Http\Controllers\ServiceQuotationController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('auth:api')->group(function () {
+    Route::get('/authenticated', function (Request $request) {
+        return response()->json(['authenticated' => true]);
+    });
+});
+
+Route::post('logout', [AuthController::class, 'logout']);
+Route::post('login',[AuthController::class,'login']);
+
 
 Route::middleware('api')->group(function () {
     Route::get('generate_control_no', [JobOrderController::class, 'generate_control_no']);

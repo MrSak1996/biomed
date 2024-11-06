@@ -12,9 +12,28 @@ import ServiceReportCreate from "../components/technician/service-report-create.
 import SummaryReport from "../components/technician/summary-report.vue";
 import ServiceQuotation from "../components/technician/service-quotation.vue";
 import ServiceQuotationCreate from "../components/technician/service-quotation-create.vue";
+
+import LoginView from "../components/Login.vue";
+import ClientDashboardView from "../components/client/dashboard.vue";
 const routes = [
   {
     path: '/',
+    name:'Login',
+    component: LoginView
+  },
+  // HOSPITAL ACCOUNT
+  {
+    path: '/client-dashboard',
+    name:'Client Dashboard',
+    component: ClientDashboardView
+  },
+
+
+
+
+
+  {
+    path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
   },
