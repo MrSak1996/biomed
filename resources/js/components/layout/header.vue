@@ -34,7 +34,8 @@
                                 <i class="fa fa-bug media-object bg-silver-darker"></i>
                             </div>
                             <div class="media-body">
-                                <h6 class="media-heading">Server Error Reports <i class="fa fa-exclamation-circle text-danger"></i></h6>
+                                <h6 class="media-heading">Server Error Reports <i
+                                        class="fa fa-exclamation-circle text-danger"></i></h6>
                                 <div class="text-muted f-s-11">3 minutes ago</div>
                             </div>
                         </a>
@@ -100,11 +101,12 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a href="javascript:;" class="dropdown-item">Edit Profile</a>
-                    <a href="javascript:;" class="dropdown-item"><span class="badge badge-danger pull-right">2</span> Inbox</a>
+                    <a href="javascript:;" class="dropdown-item"><span class="badge badge-danger pull-right">2</span>
+                        Inbox</a>
                     <a href="javascript:;" class="dropdown-item">Calendar</a>
                     <a href="javascript:;" class="dropdown-item">Setting</a>
                     <div class="dropdown-divider"></div>
-                    <a href="javascript:;" class="dropdown-item">Log Out</a>
+                    <a @click.prevent="logout" href="javascript:;" class="dropdown-item">Log Out</a>
                 </div>
             </li>
         </ul>
@@ -112,17 +114,41 @@
     </div>
 </template>
 <script>
+import { useRouter } from 'vue-router';
 import img1 from "../../../../public/assets/img/user/user-1.jpg";
 import img2 from "../../../../public/assets/img/user/user-2.jpg";
 import img3 from "../../../../public/assets/img/user/user-13.jpg";
-export default{
+import axios from 'axios';
+export default {
     name: 'Header',
-    data(){
+    data() {
         return {
             user1: img1,
             user2: img2,
             user3: img3
         }
+    },
+    methods:{
+        logout() {
+            console.log(localStorage.getItem('api_token'))
+            axios.post('/api/logout', null, {
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('api_token')
+                }
+            })
+                .then(() => {
+                    // Clear local storage and any other cached data
+                    localStorage.removeItem('api_token');
+
+                    // Redirect to the login page or another appropriate page
+                    // For example, if using Vue Router:
+                    this.$router.push('/');
+                })
+                .catch(error => {
+                    console.error('Logout failed:', error);
+                });
+        }
+
     }
 }
 </script>

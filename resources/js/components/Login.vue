@@ -69,9 +69,10 @@
             axios
                 .post('/api/login', this.form)
                 .then(response => {
-                    if (response.data.user_role == 'client') {
-                        localStorage.setItem('userId', response.data.userId);
+                    localStorage.setItem('userId', response.data.userId);
                         localStorage.setItem('api_token', response.data.api_token);
+                    if (response.data.user_role == 'client') {
+                        
                     //    this.triggerSuccess();
                         
                         setTimeout(() => {

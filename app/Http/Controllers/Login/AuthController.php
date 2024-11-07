@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens; // Import HasApiTokens trait
+
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -41,6 +42,15 @@ class AuthController extends Controller
                 'message' => 'Invalid credentials',
             ]);
         }
+    }
+    public function logout()
+    {
+        $user = Auth::guard('api')->user();
+        if ($user) {
+            $user->tokens()->delete(); // Invalidate all user tokens
+        }
+
+        return response()->json(['message' => 'Successfully logged out'], 200);
     }
 
 }
