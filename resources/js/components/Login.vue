@@ -82,12 +82,7 @@
                         setTimeout(() => {
                             this.$router.push({ name: 'Dashboard', query: { api_token: response.data.api_token } });
                         }, 1000);
-                    //    this.triggerError();
-                       
-                        setTimeout(() => {
-                            // this.$router.push({ name: 'Login' });
-
-                        }, 1000);
+                
                     }
                 })
                 .catch(error => {

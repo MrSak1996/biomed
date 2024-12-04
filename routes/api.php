@@ -5,6 +5,7 @@ use App\Http\Controllers\PMSController;
 use App\Http\Controllers\ServiceReportController;
 use App\Http\Controllers\ServiceQuotationController;
 use App\Http\Controllers\Login\AuthController;
+use App\Http\Controllers\Client\ActivitiesController;
 
 
 
@@ -69,6 +70,8 @@ Route::middleware('api')->group(function () {
     Route::get('export_service_report/{id}', [ServiceReportController::class, 'get_service_details']);
     Route::get('get_service_details', [ServiceReportController::class, 'get_service_details']);
     Route::get('get_service_quotation', [ServiceQuotationController::class, 'get_service_quotation']);
+
+    Route::get('getClientActivities',[ActivitiesController::class,'getClientActivities']);
 
 });
 Route::post('post_create_job_order',[JobOrderController::class,'post_create_job_order']);
