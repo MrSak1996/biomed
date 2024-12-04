@@ -139,7 +139,7 @@
             <div class="panel-heading">
               <div class="panel-heading-btn">
 
-                <button class="btn btn-primary btn-xs">Add Asset</button>
+                <router-link to="/inventory-management" class="btn btn-primary btn-xs">Add Asset</router-link>
 
               </div>
               <h4 class="panel-title">Assets List</h4>

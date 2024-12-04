@@ -15,6 +15,7 @@ import ServiceQuotationCreate from "../components/technician/service-quotation-c
 
 import LoginView from "../components/Login.vue";
 import ClientDashboardView from "../components/client/dashboard.vue";
+import ClientInventoryCreate from "../components/client/inventory/index.vue";
 const routes = [
   {
     path: '/',
@@ -26,6 +27,11 @@ const routes = [
     path: '/client-dashboard',
     name:'Client Dashboard',
     component: ClientDashboardView
+  },
+  {
+    path: '/inventory-management',
+    name:'Inventory Management',
+    component: ClientInventoryCreate
   },
 
 
