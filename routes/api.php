@@ -6,6 +6,7 @@ use App\Http\Controllers\ServiceReportController;
 use App\Http\Controllers\ServiceQuotationController;
 use App\Http\Controllers\Login\AuthController;
 use App\Http\Controllers\Client\ActivitiesController;
+use App\Http\Controllers\AssetController\AssetController;
 
 
 
@@ -72,6 +73,9 @@ Route::middleware('api')->group(function () {
     Route::get('get_service_quotation', [ServiceQuotationController::class, 'get_service_quotation']);
 
     Route::get('getClientActivities',[ActivitiesController::class,'getClientActivities']);
+    Route::get('get_client_jo',[JobOrderController::class,'get_client_jo']);
+    Route::get('getControlNo',[AssetController::class,'getControlNo']);
+    
 
 });
 Route::post('post_create_job_order',[JobOrderController::class,'post_create_job_order']);

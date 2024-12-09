@@ -76,6 +76,7 @@ class JobOrderController extends Controller
                     'received_by'
                 ]);
             }
+
             if ($req->has('export')) {
                 $query = JobOrderModel::select(JobOrderModel::raw('
                 id,
@@ -141,5 +142,20 @@ class JobOrderController extends Controller
                 // Download the file and delete it after sending
                 return response()->download($fileName)->deleteFileAfterSend(true);
     }
+
+    public function get_client_jo(Request $req){
+        $id = $req->query('user_id');
+
+        $jo_opts = DB::table('tbl_joborder as jo')
+        ->leftJoin('tbl_client as c','c.id','=','jo.client_id')
+        ->leftJoin('users as u','u.id','=','jo.request_by')
+        ->select('jo.id','jo.control_no','c.client','jo.particulars','jo.request_date','u.name')
+        ->where('request_by',$id)
+        ->get();
+
+        return response()->json($jo_opts);
+    }
+
+    
       
 }

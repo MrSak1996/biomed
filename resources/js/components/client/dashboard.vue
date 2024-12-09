@@ -85,8 +85,18 @@
                     <th>Action</th>
                   </thead>
                   <tbody>
-                    <tr>
+                    <tr v-for="(item, index) in job_order_opts" :key="item.id" class="odd gradeX">
+                      <td>{{ item.control_no }}</td>
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.particulars }}</td>
+                      <td>{{ item.request_date }}</td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">View</button>
 
+                      </td>
+                      <td>
+                        <button class="btn btn-sm btn-primary">View</button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -187,6 +197,7 @@ import Statistics from "./statistics.vue";
 
 // Reactive data to store activities
 const activities_opts = ref([]);
+const job_order_opts = ref([]);
 
 // Retrieve the user ID from localStorage
 const userId = localStorage.getItem('userId');
@@ -198,14 +209,25 @@ const fetchData = async () => {
       params: { user_id: userId } // Pass user_id as query params
     });
     activities_opts.value = response.data; // Assign fetched data to the reactive variable
-    console.log(response)
   } catch (error) {
     console.error('Error fetching activities:', error); // Log errors for debugging
+  }
+};
+
+const get_client_jo = async () => {
+  try {
+    const response = await axios.get('/api/get_client_jo', {
+      params: { user_id: userId } // Pass user_id as query params
+    });
+    job_order_opts.value = response.data; // Assign fetched data to the reactive variable
+  } catch (error) {
+    console.error('Error fetching job order:', error); // Log errors for debugging
   }
 };
 
 // Fetch data when the component is mounted
 onMounted(() => {
   fetchData();
+  get_client_jo();
 });
 </script>
