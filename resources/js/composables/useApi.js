@@ -10,17 +10,19 @@ export function useApi() {
   const employment_opts = ref([])
   const roles_opts = ref([])
   const designation = ref();
+  const departments = ref([])
+  const equipments = ref([])
 
   const fetchCurUser = async () => {
     // Retrieve the API token from localStorage
     const api_token = localStorage.getItem('api_token');
-    
+
     // Check if the token exists
     if (!api_token) {
       console.error('API token not found. Please log in.');
       return;
     }
-  
+
     try {
       // Make the API call to fetch the current user
       const response = await api.get(`/getUsers?api_token=${api_token}`, {
@@ -29,7 +31,7 @@ export function useApi() {
           'Content-Type': 'application/json',
         },
       });
-  
+
       // Check if the response status is valid
       if (response.status === 200 && response.data) {
         designation.value = response.data.data[0].roles;
@@ -43,6 +45,33 @@ export function useApi() {
     }
   };
 
+  const get_department = async () => {
+    try {
+      const res = await axios.get('/api/get_department')
+      departments.value = res.data.map((dept) => ({
+        id: dept.id,
+        value: dept.department,
+        name: `${dept.department}`
+      }))
+      console.log(departments.value)
+    } catch (error) {
+      console.error('Error fetching divisions:', error)
+    }
+  };
+
+  const get_equipment = async () => {
+    try {
+      const res = await axios.get('/api/get_equipment')
+      equipments.value = res.data.map((e) => ({
+        id: e.id,
+        value: e.equipment,
+        name: `${e.equipment}`
+      }))
+    } catch (error) {
+      console.error('Error fetching equipment:', error)
+    }
+  };
+
   const getControlNo = async (form, userId) => {
     try {
       const res = await axios.get(`/api/getControlNo`)
@@ -53,9 +82,9 @@ export function useApi() {
       console.error(error)
     }
   }
-  const generateQRCode = async (form,tab_form,item_id,userId) => {
+  const generateQRCode = async (form, tab_form, item_id, userId) => {
     try {
-      const res = await api.get('/generateQRCode?id='+userId+"&item_id="+item_id+"&tab_form="+tab_form)
+      const res = await api.get('/generateQRCode?id=' + userId + "&item_id=" + item_id + "&tab_form=" + tab_form)
       const controlNo = res.data.control_no
       const paddedControlNo = String(controlNo).padStart(4, '0')
       form.qr_code = paddedControlNo
@@ -200,6 +229,10 @@ export function useApi() {
   ])
 
   return {
-    getControlNo
+    getControlNo,
+    get_department,
+    get_equipment,
+    equipments,
+    departments
   }
 }

@@ -5,15 +5,15 @@ export function useForm() {
   //INVENTORY MANAGEMENT
   const client_inv_form = reactive({
     control_no: '',
-    qr_code: '',
     acct_person: '',
     sex:'',
+    equipment:'',
     employmentType: '',
     brand: '',
     model: '',
     property_no: '',
     serial_no: '',
-    aquisition_cost: '',
+    acquisition_cost: '',
     processor: '',
     division_id: '',
     acct_person_division_id: '',

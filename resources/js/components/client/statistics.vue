@@ -15,7 +15,7 @@
                 <div class="stats-icon"><i class="fa fa-desktop"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL NO. OF EQUIPMENTS</h4>
-                    <p>3,291,922</p>
+                    <p>{{ total_equipment }}</p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -29,7 +29,7 @@
                 <div class="stats-icon"><i class="fa fa-link"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL NO. OF SERVICEABLE</h4>
-                    <p>20.44%</p>
+                    <p>{{ total_serviceable_count }}</p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -43,7 +43,7 @@
                 <div class="stats-icon"><i class="fa fa-users"></i></div>
                 <div class="stats-info">
                     <h4>TOTAL NO. OF UNSERVICEABLE</h4>
-                    <p>1,291,922</p>
+                    <p>{{ total_unserviceable_count }}</p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -68,8 +68,34 @@
     </div>
 </template>
 
-<script>
-export default {
-    name: 'Client Statistics'
-}
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+const props = defineProps({
+    total_equipment: {
+        type: Number,
+        required: true
+    },
+    total_serviceable_count: {
+        type: Number,
+        required: true
+    },
+    total_unserviceable_count: {
+        type: Number,
+        required: true
+    },
+    outdated_equipment: {
+        type: Number,
+        required: true
+    }
+});
+const total = ref(0);
+const serviceableCount = ref(0);
+const unserviceableCount = ref(0);
+const outdatedCount = ref(0);
+
+// Watchers to update the reactive variables when props change
+watch(() => props.total_equipment, (newValue) => {
+    total.value = newValue;
+});
+
 </script>

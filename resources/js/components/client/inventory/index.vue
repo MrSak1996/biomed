@@ -23,10 +23,10 @@
                             <h4 class="panel-title">Asset Management Form</h4>
                         </div>
                         <div class="panel-body">
-                            <form @submit.prevent="asset_form()">
+                            <form @submit.prevent="asset_form">
                                 <div class="row">
                                     <!-- Control No -->
-                                    <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
                                             <label class="form-label">Control No.</label>
                                             <input type="text" class="form-control" readonly
@@ -34,13 +34,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- QR Code -->
-                                    <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">QR Code</label>
-                                            <input type="text" class="form-control" v-model="client_inv_form.qr_code" />
-                                        </div>
-                                    </div>
 
                                     <!-- Accountable Person -->
                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
@@ -52,7 +45,7 @@
                                     </div>
 
                                     <!-- Sex -->
-                                    <div class="col-lg-2 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
                                             <label class="form-label">Sex</label>
                                             <select class="form-control" v-model="client_inv_form.sex">
@@ -78,7 +71,20 @@
                                 </div>
 
                                 <div class="row">
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Equipment Type</label>
+                                            <select class="form-control" v-model="client_inv_form.equipment">
+                                                <option v-for="e in equipments" :key="e.id" :value="e.id">
+                                                    {{ e.value }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <!-- Brand -->
+
+
                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
                                             <label class="form-label">Brand</label>
@@ -102,7 +108,8 @@
                                                 v-model="client_inv_form.property_no" />
                                         </div>
                                     </div>
-
+                                </div>
+                                <div class="row">
                                     <!-- Serial No -->
                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
@@ -111,38 +118,48 @@
                                                 v-model="client_inv_form.serial_no" />
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <!-- Acquisition Cost -->
-                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                     <!-- Acquisition Cost -->
+                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
                                             <label class="form-label">Acquisition Cost</label>
                                             <input type="number" class="form-control"
-                                                v-model="client_inv_form.aquisition_cost" />
+                                                v-model="client_inv_form.acquisition_cost" />
                                         </div>
                                     </div>
 
-                                    <!-- Processor -->
+                                    <!-- Year Acquired -->
                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Processor</label>
+                                            <label class="form-label">Year Acquired</label>
                                             <input type="text" class="form-control"
-                                                v-model="client_inv_form.processor" />
+                                                v-model="client_inv_form.year_acquired" />
                                         </div>
                                     </div>
-
-                                    <!-- Division -->
-                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                     <!-- Division -->
+                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
                                             <label class="form-label">Division</label>
                                             <select class="form-control" v-model="client_inv_form.division_id">
-                                                <option value="" disabled>Select Division</option>
-                                                <!-- Add options dynamically or statically -->
+                                                <option v-for="department in departments" :key="department.id"
+                                                    :value="department.id">
+                                                    {{ department.value }}
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
+                                </div>
 
+                                <div class="row">
+                                    <!-- Division -->
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Status</label>
+                                            <select class="form-control" v-model="client_inv_form.status">
+                                                <option value="Serviceable">Serviceable</option>
+                                                <option value="Unserviceable">Unserviceable</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <!-- Remarks -->
                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
@@ -170,19 +187,48 @@
 </template>
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
-import { useForm } from '@/composables/useForm'
-import { useApi } from '@/composables/useApi'
 import Header from "../../../components/layout/header.vue";
 import Sidebar from "../../../components/layout/client_sidebar.vue";
 import Statistics from "../statistics.vue";
+import { ref, onMounted } from 'vue';
+import { useForm } from '@/composables/useForm'
+import { useApi } from '@/composables/useApi'
+
+
 const { client_inv_form } = useForm()
-const { getControlNo} = useApi()
+const { getControlNo, departments, equipments, get_equipment, get_department } = useApi()
 const userId = localStorage.getItem('userId');
+const errors = ref({})
+
+
+const asset_form = async () => {
+    try {
+        errors.value = {}
+
+        const requestData = {
+            ...client_inv_form,
+            client_id: userId
+        }
+        const response = await axios.post('/api/post_asset', requestData)
+        setTimeout(() => {
+            const id = response.data.id
+            router.push({
+                name: 'Client Dashboard',
+                query: { api_token: localStorage.getItem('api_token') }
+            })
+        }, 1000)
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
 onMounted(() => {
-getControlNo(client_inv_form,userId)
+    departments,
+        equipments,
+        getControlNo(client_inv_form, userId),
+        get_department(),
+        get_equipment()
 });
 
 </script>

@@ -9,7 +9,12 @@
       </ol>
       <h1 class="page-header">Dashboard</h1>
       <!-- Quick Statistics -->
-      <statistics />
+      <statistics
+      :total_equipment="total_item"
+        :total_serviceable_count="serviceable_count"
+        :total_unserviceable_count="unserviceable_count"
+        :outdated_equipment="outdated_count"
+      />
       <div class="row">
         <div class="col-lg-4">
           <div class="panel panel-inverse" data-sortable-id="index-1">
@@ -163,7 +168,7 @@
                     <th>Serial Number</th>
                     <th>Property Number</th>
                     <th>Accountable Person</th>
-                    <th>Position</th>
+                    <th>Employment Type</th>
                     <th>Division</th>
                     <th>Type of Equipment</th>
                     <th>Year Acquired</th>
@@ -173,8 +178,18 @@
                     <th>Action</th>
                   </thead>
                   <tbody>
-                    <tr>
-
+                    <tr v-for="(item, index) in asset_opts" :key="item.id" class="odd gradeX">
+                      <td>{{ item.control_no }}</td>
+                      <td>{{ item.serial_no }}</td>
+                      <td>{{ item.property_no }}</td>
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.employmentType }}</td>
+                      <td>{{ item.department }}</td>
+                      <td>{{ item.equipment }}</td>
+                      <td>{{ item.year_acquired }}</td>
+                      <td>Brand:{{ item.brand }} Model:{{ item.model }}</td>
+                      <td>{{ item.remarks }}</td>
+                      <td>{{ item.status }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -198,6 +213,10 @@ import Statistics from "./statistics.vue";
 // Reactive data to store activities
 const activities_opts = ref([]);
 const job_order_opts = ref([]);
+const asset_opts = ref([]);
+const total_item = ref(0);
+const serviceable_count = ref(0);
+const unserviceable_count = ref(0);
 
 // Retrieve the user ID from localStorage
 const userId = localStorage.getItem('userId');
@@ -225,9 +244,31 @@ const get_client_jo = async () => {
   }
 };
 
+const get_assets = async () => {
+  try {
+    const response = await axios.get('/api/get_assets', {
+      params: { user_id: userId } // Pass user_id as query params
+    });
+    total_item.value = Number(response.data.count) // Set the count if it exists
+
+    asset_opts.value = response.data.data; // Assign fetched data to the reactive variable
+  } catch (error) {
+    console.error('Error fetching job order:', error); // Log errors for debugging
+  }
+};
+
+const getCountStatus = async () => {
+  const response = await axios.get(`/api/getCountStatus?userId=${userId}`)
+  console.log('a')
+  serviceable_count.value = response.data.serviceable_count // Set the count if it exists
+  unserviceable_count.value = Number(response.data.unserviceable_count) // Set the count if it exists
+}
+
 // Fetch data when the component is mounted
 onMounted(() => {
   fetchData();
   get_client_jo();
+  get_assets();
+  getCountStatus();
 });
 </script>
