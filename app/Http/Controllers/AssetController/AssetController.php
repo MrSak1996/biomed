@@ -33,7 +33,8 @@ class AssetController extends Controller
     }
     public function post_asset(Request $req)
     {
-        $userId = $req->input('client_id');
+        $userId = $req->input('id');
+        $clientId = $req->input('clientId');
 
         // Validate the incoming request data
         $validated = $req->validate([
@@ -67,7 +68,8 @@ class AssetController extends Controller
         $equipment = AssetModel::updateOrCreate(
             ['control_no' => $data['control_no']],
             [
-                'client_id'          => $userId,
+                'encoded_by'         => $userId,
+                'client_id'          => $clientId,
                 'control_no'         => $data['control_no'],
                 'acct_person'        => $data['acct_person'],
                 'sex'                => $data['sex'],
@@ -111,11 +113,11 @@ class AssetController extends Controller
         $id = $req->query('user_id');
 
         $asset_opts = DB::table('tbl_assets as s')
-            ->leftJoin('users as u', 'u.id', '=', 's.client_id')
+            ->leftJoin('users as u', 'u.id', '=', 's.encoded_by')
             ->leftJoin('tbl_department as d', 'd.id', '=', 's.division_id')
             ->leftJoin('tbl_equipment as e', 'e.id', '=', 's.selectedEquipmentType')
             ->select('s.control_no','u.name','s.acct_person','s.sex','s.employmentType','s.serial_no','s.brand','s.model','s.property_no','s.acquisition_cost','d.department','e.equipment','s.remarks','s.year_acquired','s.status')
-            ->where('client_id', $id)
+            ->where('u.id', $id)
             ->get();
 
             $rowCount = $asset_opts->count();
@@ -135,7 +137,7 @@ class AssetController extends Controller
 
         // Count the number of records for each status (1 = Serviceable, 2 = Unserviceable)
         $counts = DB::table('tbl_assets as a')
-        ->leftJoin('users as u', 'u.dept_id', '=', 'a.client_id')
+        ->leftJoin('users as u', 'u.id', '=', 'a.encoded_by')
         ->select('a.status', DB::raw('count(*) as total'))
         ->whereIn('a.status', $status) // Filters by the given statuses
         ->where('u.id', $id) // Filters by user ID
@@ -160,5 +162,21 @@ class AssetController extends Controller
 
         // Return the result as JSON
         return response()->json($result);
+    }
+    public function getOutdatedEquipment(Request $request)
+    {
+        $userId = $request->query('userId');
+
+        $outdatedEquipment = DB::table('tbl_assets as a')
+            ->leftJoin('users as u', 'u.id', '=', 'a.encoded_by')
+            ->select('a.year_acquired')
+            ->where('a.year_acquired', '<=', DB::raw('YEAR(CURDATE()) - 5'))
+            ->where('u.id', $userId)
+            ->get();
+        $rowCount = $outdatedEquipment->count();
+
+
+        // Return the results as a JSON response
+        return response()->json(['count' => $rowCount]);
     }
 }

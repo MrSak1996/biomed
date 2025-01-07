@@ -16,8 +16,8 @@
                 <!-- begin login-header -->
                 <div class="login-header">
                     <div class="brand">
-                        <span class="logo"></span> <b>BIOMEd</b> Admin
-                        <small>Lorem Ipsum</small>
+                        <span class="logo"></span> <b>BIOMED</b> Admin
+                        <small></small>
                     </div>
                     <div class="icon">
                         <i class="fa fa-sign-in"></i>
@@ -69,19 +69,20 @@
             axios
                 .post('/api/login', this.form)
                 .then(response => {
+                    localStorage.setItem('client_id', response.data.client_id);
                     localStorage.setItem('userId', response.data.userId);
-                        localStorage.setItem('api_token', response.data.api_token);
+                    localStorage.setItem('api_token', response.data.api_token);
                     if (response.data.user_role == 'client') {
                         
                     //    this.triggerSuccess();
                         
-                        setTimeout(() => {
+                        // setTimeout(() => {
                             this.$router.push({ name: 'Client Dashboard', query: { api_token: response.data.api_token } });
-                        }, 1000);
-                    } else {
-                        setTimeout(() => {
+                        // }, 1000);
+                    } else if(response.data.user_role == 'admin') {
+                        // setTimeout(() => {
                             this.$router.push({ name: 'Dashboard', query: { api_token: response.data.api_token } });
-                        }, 1000);
+                        // }, 1000);
                 
                     }
                 })

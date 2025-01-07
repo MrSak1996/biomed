@@ -118,8 +118,8 @@
                                                 v-model="client_inv_form.serial_no" />
                                         </div>
                                     </div>
-                                     <!-- Acquisition Cost -->
-                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                    <!-- Acquisition Cost -->
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
                                             <label class="form-label">Acquisition Cost</label>
                                             <input type="number" class="form-control"
@@ -135,10 +135,10 @@
                                                 v-model="client_inv_form.year_acquired" />
                                         </div>
                                     </div>
-                                     <!-- Division -->
-                                     <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+                                    <!-- Division -->
+                                    <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
                                         <div class="mb-3">
-                                            <label class="form-label">Division</label>
+                                            <label class="form-label">Department</label>
                                             <select class="form-control" v-model="client_inv_form.division_id">
                                                 <option v-for="department in departments" :key="department.id"
                                                     :value="department.id">
@@ -191,13 +191,15 @@ import Header from "../../../components/layout/header.vue";
 import Sidebar from "../../../components/layout/client_sidebar.vue";
 import Statistics from "../statistics.vue";
 import { ref, onMounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router'
 import { useForm } from '@/composables/useForm'
 import { useApi } from '@/composables/useApi'
 
-
+const router = useRouter()
 const { client_inv_form } = useForm()
 const { getControlNo, departments, equipments, get_equipment, get_department } = useApi()
 const userId = localStorage.getItem('userId');
+const client_id = localStorage.getItem('client_id');
 const errors = ref({})
 
 
@@ -207,7 +209,8 @@ const asset_form = async () => {
 
         const requestData = {
             ...client_inv_form,
-            client_id: userId
+            id: userId,
+            clientId: client_id
         }
         const response = await axios.post('/api/post_asset', requestData)
         setTimeout(() => {
@@ -224,11 +227,11 @@ const asset_form = async () => {
 
 
 onMounted(() => {
-    departments,
-        equipments,
-        getControlNo(client_inv_form, userId),
-        get_department(),
-        get_equipment()
+departments,
+equipments,
+getControlNo(client_inv_form, userId),
+get_department(),
+get_equipment()
 });
 
 </script>

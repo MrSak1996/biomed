@@ -123,12 +123,23 @@ export default {
     name: 'Header',
     data() {
         return {
+            user:null,
             user1: img1,
             user2: img2,
             user3: img3
         }
     },
+    async mounted() {
+        try {
+            this.user = await this.$fetchCurUser();
+            console.log(this.user);
+        } catch (error) {
+            console.error('Error fetching user:', error);
+        }
+    },
+    
     methods:{
+        
         logout() {
             console.log(localStorage.getItem('api_token'))
             axios.post('/api/logout', null, {

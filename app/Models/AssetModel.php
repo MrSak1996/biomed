@@ -14,6 +14,7 @@ class AssetModel extends Model
 
     protected $fillable = [
         'id',
+        'encoded_by',
         'client_id',
         'control_no',
         'acct_person',

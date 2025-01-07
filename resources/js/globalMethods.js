@@ -1,7 +1,55 @@
 // globalMethods.js
 
 import axios from 'axios';
+const fetchCurUser = async () => {
+    // Retrieve the API token from localStorage
+    const api_token = localStorage.getItem('api_token');
 
+    // Check if the token exists
+    if (!api_token) {
+        console.error('API token not found. Please log in.');
+        return;
+    }
+
+    try {
+        // Make the API call to fetch the current user
+        const response = await axios.get(`../api/getUsers?api_token=${api_token}`, {
+            headers: {
+                Authorization: `Bearer ${api_token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        // Check if the response status is valid
+        if (response.status === 200 && response.data) {
+            user_name.value = response.data.data[0].name;
+            console.log(response)
+            return response.data;
+        } else {
+            console.error('Failed to fetch current user: Invalid response');
+        }
+    } catch (error) {
+        // Handle any errors
+        console.error('Error fetching current user:', error.response?.data?.message || error.message);
+    }
+};
+const generateControlNO = async function (url, prefix) {
+    try {
+        const response = await axios.get(`../api/` + url);
+
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
+        const ict_no_format = `${year}`;
+        const ict_no = response.data[0].control_no;
+        const formattedSequence = ict_no.toString().padStart(4, '0');
+        return `${prefix}-${ict_no_format}-${month}-${formattedSequence}`;
+
+    } catch (error) {
+        console.error('Error generating control number:', error);
+        throw error; // Optionally, re-throw the error if you want to handle it elsewhere
+    }
+};
 const fetchUserData = function (userId, url) {
     if (window.location.pathname.startsWith('/procurement/rfq')) {
         return axios.get(`../../api/fetchUser/${userId}`)
@@ -23,25 +71,9 @@ const fetchUserData = function (userId, url) {
 };
 
 
-const generateControlNO = async function (url, prefix) {
-    try {
-        const response = await axios.get(`../api/` + url);
-        
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Adding 1 because months are zero-indexed
-        const ict_no_format = `${year}`;
-        const ict_no = response.data[0].control_no;
-        const formattedSequence = ict_no.toString().padStart(4, '0');
-        return `${prefix}-${ict_no_format}-${month}-${formattedSequence}`;
 
-    } catch (error) {
-        console.error('Error generating control number:', error);
-        throw error; // Optionally, re-throw the error if you want to handle it elsewhere
-    }
-};
 
-const formatDate= function (date) {
+const formatDate = function (date) {
     if (!date || date === '0000-00-00') {
         return null; // Return null if the date is null or '0000-00-00'
     } else {
@@ -212,6 +244,7 @@ const formatDate= function (date) {
 
 
 export {
+    fetchCurUser,
     generateControlNO,
     formatDate
     // fetchUserData,

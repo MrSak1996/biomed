@@ -51,8 +51,8 @@
                     <span>Calendar of Schedule</span>
                 </a>
                 <ul class="sub-menu">
-                    <li> <a :href="$router.resolve({path: '/task-sched'}).href"> Activities and Task</a></li>
-                    <li><router-link to="/task-management">Task Management</router-link></li>
+                    <li><router-link :to="{ path: '/task-sched', query: { api_token: $route.query.api_token } }" >Activities and Task</router-link></li>
+                    <li><router-link :to="{ path: '/task-management', query: { api_token: $route.query.api_token } }" >Task Management</router-link></li>
                     <li><router-link to="#">Conflict Schedule</router-link></li>
                     <li><router-link to="#">Report Generator</router-link></li>
                 </ul>
@@ -124,32 +124,8 @@
                     <li><a href="email_newsletter.html">Delivery</a></li> -->
                 </ul>
             </li>
-             <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret"></b>
-                    <i class="fa fa-chart-pie"></i>
-                    <span>Create Request</span>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="chart-flot.html">Flot Chart</a></li>
-                    <li><a href="chart-morris.html">Morris Chart</a></li>
-                    <li><a href="chart-js.html">Chart JS</a></li>
-                    <li><a href="chart-d3.html">d3 Chart</a></li>
-                </ul>
-            </li>
-            <li class="has-sub">
-                <a href="javascript:;">
-                    <b class="caret"></b>
-                    <i class="fa fa-chart-pie"></i>
-                    <span>Account Settings</span>
-                </a>
-                <ul class="sub-menu">
-                    <li><a href="chart-flot.html">Flot Chart</a></li>
-                    <li><a href="chart-morris.html">Morris Chart</a></li>
-                    <li><a href="chart-js.html">Chart JS</a></li>
-                    <li><a href="chart-d3.html">d3 Chart</a></li>
-                </ul>
-            </li>
+             
+            
 
             <!-- begin sidebar minify button -->
             <li><a href="#" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>

@@ -57,7 +57,7 @@
                 <div class="stats-icon"><i class="fa fa-clock"></i></div>
                 <div class="stats-info">
                     <h4>OUTDATED EQUIPMENT</h4>
-                    <p>00:12:23</p>
+                    <p>{{ outdated_equipment }}</p>
                 </div>
                 <div class="stats-link">
                     <a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
@@ -91,7 +91,6 @@ const props = defineProps({
 const total = ref(0);
 const serviceableCount = ref(0);
 const unserviceableCount = ref(0);
-const outdatedCount = ref(0);
 
 // Watchers to update the reactive variables when props change
 watch(() => props.total_equipment, (newValue) => {

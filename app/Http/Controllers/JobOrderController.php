@@ -16,7 +16,7 @@ use Carbon\Carbon;
 class JobOrderController extends Controller
 {
     const STATUS_DRAFT  = 1;
- 
+
     public function generate_control_no()
     {
         return response()->json(
@@ -88,74 +88,71 @@ class JobOrderController extends Controller
                 particulars,
                 received_by
                 '))
-            ->where('id', $id);
-             $data = $query->get();
-            return $this->export($data);
-                
+                    ->where('id', $id);
+                $data = $query->get();
+                return $this->export($data);
             }
             return response()->json(['data' => $data]);
-            
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    public function export($data){
+    public function export($data)
+    {
         $templatePath = public_path('templates/job-order.xlsx');
-                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($templatePath);
-                
-                if (!file_exists($templatePath)) {
-                    return response()->json(['error' => 'Template file not found.'], 404);
-                }
-                
-                $spreadsheet = IOFactory::load($templatePath);
+        $spreadsheet = IOFactory::load($templatePath);
 
-                // Get the active sheet
-                $sheet = $spreadsheet->getActiveSheet();
+        if (!file_exists($templatePath)) {
+            return response()->json(['error' => 'Template file not found.'], 404);
+        }
 
-                // Initialize row counter
-                $row = 1; // Starting from the first row for simplicity
-                if (isset($data)) {
+        $spreadsheet = IOFactory::load($templatePath);
 
-                    $control_no = $data[0]['control_no'];
-                    $particulars = $data[0]['particulars'] ?? 'N/A';
-                    $request_date = $data[0]['request_date'];
-                    $start_date = $data[0]['start_date'];
-                    $completed_date = $data[0]['completed_date'];
-            
-                    $sheet->setCellValue('A10',$request_date);
-                    $sheet->setCellValue('C10',$start_date);
-                    $sheet->setCellValue('D10',$completed_date);
-                    $sheet->setCellValue('A7', "Job Order No:" . $control_no);
-                    $sheet->setCellValue('B10', $particulars);
-                }
-            
-                // Save the file
-                $fileName = $control_no.'.xlsx';
-                $writer = new Xlsx($spreadsheet);
-            
-                try {
-                    $writer->save($fileName);
-                } catch (\PhpOffice\PhpSpreadsheet\Exception $e) {
-                    return response()->json(['error' => 'Error saving file: ' . $e->getMessage()], 500);
-                }
-            
-                // Download the file and delete it after sending
-                return response()->download($fileName)->deleteFileAfterSend(true);
+        // Get the active sheet
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Initialize row counter
+        $row = 1; // Starting from the first row for simplicity
+        if (isset($data)) {
+
+            $control_no = $data[0]['control_no'];
+            $particulars = $data[0]['particulars'] ?? 'N/A';
+            $request_date = $data[0]['request_date'];
+            $start_date = $data[0]['start_date'];
+            $completed_date = $data[0]['completed_date'];
+
+            $sheet->setCellValue('A10', $request_date);
+            $sheet->setCellValue('C10', $start_date);
+            $sheet->setCellValue('D10', $completed_date);
+            $sheet->setCellValue('A7', "Job Order No:" . $control_no);
+            $sheet->setCellValue('B10', $particulars);
+        }
+
+        // Save the file
+        $fileName = $control_no . '.xlsx';
+        $writer = new Xlsx($spreadsheet);
+
+        try {
+            $writer->save($fileName);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Error saving file: ' . $e->getMessage()], 500);
+        }
+
+        // Download the file and delete it after sending
+        return response()->download($fileName)->deleteFileAfterSend(true);
     }
 
-    public function get_client_jo(Request $req){
+    public function get_client_jo(Request $req)
+    {
         $id = $req->query('user_id');
 
         $jo_opts = DB::table('tbl_joborder as jo')
-        ->leftJoin('tbl_client as c','c.id','=','jo.client_id')
-        ->leftJoin('users as u','u.id','=','jo.request_by')
-        ->select('jo.id','jo.control_no','c.client','jo.particulars','jo.request_date','u.name')
-        ->where('request_by',$id)
-        ->get();
+            ->leftJoin('tbl_client as c', 'c.id', '=', 'jo.client_id')
+            ->leftJoin('users as u', 'u.id', '=', 'jo.client_id')
+            ->select('jo.id', 'jo.control_no', 'c.client', 'jo.particulars', 'jo.request_date', 'u.name')
+            ->where('u.id', $id)
+            ->get();
 
         return response()->json($jo_opts);
     }
-
-    
-      
 }

@@ -99,9 +99,7 @@
                         <button class="btn btn-sm btn-primary">View</button>
 
                       </td>
-                      <td>
-                        <button class="btn btn-sm btn-primary">View</button>
-                      </td>
+                     
                     </tr>
                   </tbody>
                 </table>
@@ -190,6 +188,10 @@
                       <td>Brand:{{ item.brand }} Model:{{ item.model }}</td>
                       <td>{{ item.remarks }}</td>
                       <td>{{ item.status }}</td>
+                      <td>
+                        <button class="btn btn-primary btn-xs mr-2">View</button>
+                        <button class="btn btn-warning btn-xs mr-2">Update</button>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -217,15 +219,17 @@ const asset_opts = ref([]);
 const total_item = ref(0);
 const serviceable_count = ref(0);
 const unserviceable_count = ref(0);
+const outdated_count = ref(0);
 
 // Retrieve the user ID from localStorage
 const userId = localStorage.getItem('userId');
+const client_id = localStorage.getItem('client_id');
 
 // Function to fetch data from the API
 const fetchData = async () => {
   try {
     const response = await axios.get('/api/getClientActivities', {
-      params: { user_id: userId } // Pass user_id as query params
+      params: { client_id: client_id } // Pass user_id as query params
     });
     activities_opts.value = response.data; // Assign fetched data to the reactive variable
   } catch (error) {
@@ -264,11 +268,17 @@ const getCountStatus = async () => {
   unserviceable_count.value = Number(response.data.unserviceable_count) // Set the count if it exists
 }
 
+const getOutdatedEquipment = async () => {
+  const response = await axios.get(`/api/getOutdatedEquipment?userId=${userId}`)
+  outdated_count.value = Number(response.data.count) // Set the count if it exists
+}
+
 // Fetch data when the component is mounted
 onMounted(() => {
   fetchData();
   get_client_jo();
   get_assets();
   getCountStatus();
+  getOutdatedEquipment();
 });
 </script>

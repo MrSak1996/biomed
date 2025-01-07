@@ -9,41 +9,11 @@ export function useApi() {
   const range_category = ref([])
   const employment_opts = ref([])
   const roles_opts = ref([])
-  const designation = ref();
+  const user_name = ref();
   const departments = ref([])
   const equipments = ref([])
 
-  const fetchCurUser = async () => {
-    // Retrieve the API token from localStorage
-    const api_token = localStorage.getItem('api_token');
 
-    // Check if the token exists
-    if (!api_token) {
-      console.error('API token not found. Please log in.');
-      return;
-    }
-
-    try {
-      // Make the API call to fetch the current user
-      const response = await api.get(`/getUsers?api_token=${api_token}`, {
-        headers: {
-          Authorization: `Bearer ${api_token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      // Check if the response status is valid
-      if (response.status === 200 && response.data) {
-        designation.value = response.data.data[0].roles;
-        return response.data;
-      } else {
-        console.error('Failed to fetch current user: Invalid response');
-      }
-    } catch (error) {
-      // Handle any errors
-      console.error('Error fetching current user:', error.response?.data?.message || error.message);
-    }
-  };
 
   const get_department = async () => {
     try {
@@ -82,89 +52,7 @@ export function useApi() {
       console.error(error)
     }
   }
-  const generateQRCode = async (form, tab_form, item_id, userId) => {
-    try {
-      const res = await api.get('/generateQRCode?id=' + userId + "&item_id=" + item_id + "&tab_form=" + tab_form)
-      const controlNo = res.data.control_no
-      const paddedControlNo = String(controlNo).padStart(4, '0')
-      form.qr_code = paddedControlNo
-    } catch (error) {
-      console.error(error)
-    }
-  }
 
-  const getDivision = async () => {
-    try {
-      const res = await api.get('/getDivision')
-      division_opts.value = res.data.map((division) => ({
-        id: division.id,
-        value: division.id,
-        name: `${division.acronym} - ${division.division_title}`
-      }))
-    } catch (error) {
-      console.error('Error fetching divisions:', error)
-    }
-  }
-
-  const getNatureWork = async () => {
-    try {
-      const res = await api.get('/getNatureWork')
-      work_nature.value = res.data.map((work) => ({
-        id: work.id,
-        name: work.nature_work_title
-      }))
-    } catch (error) {
-      console.error('Error fetching work nature:', error)
-    }
-  }
-
-  const getEquipment = async () => {
-    try {
-      const res = await api.get('/getEquipment')
-      equipment_type.value = res.data.map((item) => ({
-        id: item.id,
-        name: item.equipment_title
-      }))
-    } catch (error) {
-      console.error('Error fetching equipment types:', error)
-    }
-  }
-
-  const getRangeCategory = async () => {
-    try {
-      const res = await api.get('/getRangeCategory')
-      range_category.value = res.data.map((item) => ({
-        id: item.id,
-        name: item.range_title
-      }))
-    } catch (error) {
-      console.error('Error fetching range categories:', error)
-    }
-  }
-
-  const getEmploymentType = async () => {
-    try {
-      const res = await api.get('/getEmploymentType')
-      employment_opts.value = res.data.map((item) => ({
-        id: item.id,
-        name: item.employment_title
-      }))
-    } catch (error) {
-      console.error('Error fetching employment types:', error)
-    }
-  }
-
-  const getUserRoles = async () => {
-    try {
-      const res = await api.get('/getUserRoles')
-      roles_opts.value = res.data.map((item) => ({
-        id: item.id,
-        name: item.roles
-      }))
-    } catch (error) {
-      console.error('Error fetching user role:', error)
-    }
-  }
   const province_opts = ref([
     { name: 'Cavite', id: 21 },
     { name: 'Laguna', id: 34 },
@@ -188,6 +76,7 @@ export function useApi() {
     { name: 'Male', value: 'Male' },
     { name: 'Female', value: 'Female' }
   ])
+
   const capacity_opts = ref([
     { name: '1 TB', value: '1 TB' },
     { name: '2 TB', value: '2 TB' },

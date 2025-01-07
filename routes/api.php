@@ -54,6 +54,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('api')->group(function () {
+    Route::get('/getUsers', [AuthController::class, 'getUsers']);
+
     Route::get('generate_control_no', [JobOrderController::class, 'generate_control_no']);
     Route::get('get_job_order_list/{id}', [JobOrderController::class, 'get_job_order_list']);
     Route::get('export_job_order/{id}', [JobOrderController::class, 'get_job_order_list']);
@@ -64,6 +66,7 @@ Route::middleware('api')->group(function () {
     Route::get('fetch_onboard_tech',[TaskScheduleController::class, 'fetch_onboard_tech']);
     Route::get('fetch_upcoming_pms',[TaskScheduleController::class, 'fetch_upcoming_pms']);
     Route::get('get_taskdata_list',[TaskScheduleController::class, 'fetch_data']);
+    Route::get('technicians',[TaskScheduleController::class, 'fetch_technicians']);
 
     //PMS
     Route::get('get_pms_data',[PMSController::class, 'get_pms_data']);
@@ -82,6 +85,7 @@ Route::middleware('api')->group(function () {
     Route::get('getControlNo',[AssetController::class,'getControlNo']);
     Route::get('get_assets',[AssetController::class,'get_assets']);
     Route::get('getCountStatus',[AssetController::class,'getCountStatus']);
+    Route::get('getOutdatedEquipment',[AssetController::class,'getOutdatedEquipment']);
     
 
 });

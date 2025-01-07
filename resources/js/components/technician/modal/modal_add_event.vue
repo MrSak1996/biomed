@@ -1,14 +1,14 @@
 <template>
-<div v-if="visible" class="modal-overlay">
-    <div class="modal fade show" style="display: block;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add Task</h4>
-                    <button type="button" class="close" @click="close" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                     <form>
+    <div v-if="visible" class="modal-overlay">
+        <div class="modal fade show" style="display: block;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add Task</h4>
+                        <button type="button" class="close" @click="close" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
                             <div class="form-group row">
                                 <div class="col-sm-12">
                                     <div class="mb-3">
@@ -21,7 +21,8 @@
                                 <div class="col-sm-12">
                                     <div class="mb-3">
                                         <label class="form-label">Activity Description</label>
-                                        <textarea rows="3" col="100" style="height:100px !important;" id="description" class="form-control" v-model="eventDetails.description"></textarea>
+                                        <textarea rows="3" col="100" style="height:100px !important;" id="description"
+                                            class="form-control" v-model="eventDetails.description"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -39,32 +40,41 @@
                                     </div>
                                 </div>
                             </div>
-    
+
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="mb-3">
                                         <label class="form-label">Assign Technicians</label>
-                                        <multiselect v-model="eventDetails.sel_technicians" :options="sel_technicians" label="label" :multiple="false"></multiselect>
+                                        <select class="form-control" v-model="eventDetails.sel_technicians">
+                                            <option v-for="tech in sel_technicians" :key="tech.id" :value="tech.id">
+                                                {{ tech.value }}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="mb-3">
                                         <label class="form-label">Client</label>
-                                        <multiselect v-model="eventDetails.sel_client" :options="sel_clients" label="label" :multiple="false"></multiselect>
+                                        <select class="form-control" v-model="eventDetails.sel_clients">
+                                            <option v-for="client in sel_clients" :key="client.id" :value="client.id">
+                                                {{ client.value }}
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
-    
+
                             </div>
-    
+
                         </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="confirmButton" class="btn btn-success" style="float: right;" @click="saveData()">Save</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="confirmButton" class="btn btn-success" style="float: right;"
+                            @click="saveData()">Save</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
@@ -84,48 +94,34 @@ export default {
     data() {
         return {
             title: '',
-            sel_technicians: [{
-                    label: 'DESKTOP/LAPTOP REPAIR',
-                    value: 1
-                },
-                {
-                    label: 'HARDWARE INSTALLATION',
-                    value: 2
-                },
-                {
-                    label: 'PRINTER/SCANNER/COPIER',
-                    value: 3
-                },
-            ],
-            sel_clients: [{
-                label: 'Health Serv'
-            }]
+            sel_technicians: [],
+            sel_clients: []
         };
     },
     methods: {
         close() {
             this.$emit('close');
         },
-          saveData() {
-                axios.post('/api/post_create_event', {
-                    posted_by:1,
-                    client: this.eventDetails.client,
-                    technician: this.eventDetails.technician,
-                    title: this.eventDetails.title,
-                    start: this.eventDetails.start,
-                    end: this.eventDetails.end,
-                    description: this.eventDetails.description,
-                }).then(() => {
-                    setTimeout(() => {
+        saveData() {
+            axios.post('/api/post_create_event', {
+                posted_by: 1,
+                client: this.eventDetails.client,
+                technician: this.eventDetails.technician,
+                title: this.eventDetails.title,
+                start: this.eventDetails.start,
+                end: this.eventDetails.end,
+                description: this.eventDetails.description,
+            }).then(() => {
+                setTimeout(() => {
                     this.showSweetAlert('success');
                     location.reload();
-                }, 1000); 
-    
-                }).catch((error) => {
-    
-                })
-            },
-             showSweetAlert(type) {
+                }, 1000);
+
+            }).catch((error) => {
+
+            })
+        },
+        showSweetAlert(type) {
             let options = {
                 title: 'Successfully saved!',
                 text: 'Your data has been saved successfully.',
@@ -161,9 +157,40 @@ export default {
             }
 
             swal(options);
-        }
-        
-    }
+        },
+        async fetchTechnicians() {
+            try {
+                const res = await axios.get('/api/technicians')
+                this.sel_technicians = res.data.map((tech) => ({
+                    id: tech.id,
+                    value: tech.name,
+                    name: `${tech.name}`
+                }))
+                console.log(departments.value)
+            } catch (error) {
+                console.error('Error fetching divisions:', error)
+            }
+        },
+        async fetchClient() {
+            try {
+                const res = await axios.get('/api/get_client')
+                this.sel_technicians = res.data.map((client) => ({
+                    id: client.id,
+                    value: client.client,
+                    name: `${client.client}`
+                }))
+                console.log(departments.value)
+            } catch (error) {
+                console.error('Error fetching divisions:', error)
+            }
+        },
+    },
+    mounted() {
+        this.fetchTechnicians();
+        this.fetchClient();
+    },
+
+
 };
 </script>
 

@@ -43,6 +43,14 @@ class TaskScheduleController extends Controller
         return response()->json($EventData);
     }
 
+    public function fetch_technicians()
+    {
+        $data = DB::table('tbl_technicians as t')
+        ->select('id','name','position','contact_details')
+        ->get();
+        return response()->json($data);
+    }
+
     public function fetch_onboard_tech()
     {
         $query = TaskScheduleModel::select(TaskScheduleModel::raw('
